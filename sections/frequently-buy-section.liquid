@@ -1,0 +1,666 @@
+{%- comment -%}
+  Section: Frequently Bought Together (Raja Maharaja style) + Combo Discount
+  Add one product block per item. Shoppers can uncheck items they don't
+  want; the total price, savings, and "Add selected" button update live.
+  An optional combo discount (percentage or fixed) can be applied on top
+  of the selected items' price, either always or only when every item in
+  the bundle is selected. No metafield setup required — products are
+  picked directly in the theme editor via section blocks.
+{%- endcomment -%}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+
+{%- assign rk_fbt_count = 0 -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'product' and block.settings.product != blank -%}
+    {%- assign rk_fbt_count = rk_fbt_count | plus: 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<section class="rk-fbt" id="rk-fbt-{{ section.id }}" data-count="{{ rk_fbt_count }}">
+  <div class="rk-fbt__inner">
+
+    {%- if section.settings.title != blank -%}
+      <h2 class="rk-fbt__title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    {%- comment -%} Build a display string for the discount badge, e.g. "10%" or "$5.00" {%- endcomment -%}
+    {%- assign rk_discount_type = section.settings.discount_type -%}
+    {%- assign rk_discount_value = section.settings.discount_value -%}
+    {%- assign rk_show_badge = false -%}
+    {%- if rk_discount_type != 'none' and rk_discount_value > 0 -%}
+      {%- assign rk_show_badge = true -%}
+      {%- if rk_discount_type == 'percentage' -%}
+        {%- assign rk_discount_display = rk_discount_value | append: '%' -%}
+      {%- else -%}
+        {%- assign rk_discount_cents = rk_discount_value | times: 100 -%}
+        {%- assign rk_discount_display = rk_discount_cents | money -%}
+      {%- endif -%}
+      {%- assign rk_badge_text = section.settings.discount_badge_text | replace: '{discount}', rk_discount_display -%}
+    {%- endif -%}
+
+    {%- if rk_fbt_count == 0 -%}
+      <div class="rk-fbt__empty">Add product blocks in the theme editor to build this bundle.</div>
+    {%- else -%}
+
+      <div class="rk-fbt__layout">
+
+        <div class="rk-fbt__items">
+          {%- assign rk_i = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'product' -%}
+              {%- assign p = block.settings.product -%}
+              {%- if p != blank -%}
+                {%- assign rk_i = rk_i | plus: 1 -%}
+                {%- assign v = p.selected_or_first_available_variant -%}
+
+                {%- if rk_i > 1 -%}<span class="rk-fbt__plus" aria-hidden="true">+</span>{%- endif -%}
+
+                <div
+                  class="rk-fbt__card"
+                  data-rk-fbt-card
+                  {{ block.shopify_attributes }}
+                >
+                  <label class="rk-fbt__imagewrap">
+                    <input
+                      type="checkbox"
+                      class="rk-fbt__checkbox"
+                      data-rk-fbt-checkbox
+                      {% if v.available == false %}disabled{% else %}checked{% endif %}
+                    >
+                    <span class="rk-fbt__check" aria-hidden="true"></span>
+                    {%- if p.featured_image != blank -%}
+                      <img
+                        class="rk-fbt__img"
+                        src="{{ p.featured_image | image_url: width: 300 }}"
+                        width="300"
+                        height="300"
+                        alt="{{ p.featured_image.alt | escape | default: p.title }}"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      <span class="rk-fbt__img rk-fbt__img--placeholder">{{ 'image' | placeholder_svg_tag: 'rk-placeholder' }}</span>
+                    {%- endif -%}
+                  </label>
+
+                  <p class="rk-fbt__name">{{ p.title }}</p>
+
+                  <p class="rk-fbt__price">
+                    {%- if v.compare_at_price > v.price -%}
+                      <span class="rk-fbt__compare">{{ v.compare_at_price | money }}</span>
+                    {%- endif -%}
+                    <span class="rk-fbt__current">{{ v.price | money }}</span>
+                  </p>
+
+                  {%- unless v.available -%}
+                    <span class="rk-pill rk-pill--soldout rk-fbt__soldout">Sold out</span>
+                  {%- endunless -%}
+
+                  {%- if p.has_only_default_variant -%}
+                    <input type="hidden" data-rk-fbt-variant-id value="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price }}">
+                  {%- else -%}
+                    <select class="rk-fbt__select" data-rk-fbt-variant-select>
+                      {%- for variant in p.variants -%}
+                        <option
+                          value="{{ variant.id }}"
+                          data-price="{{ variant.price }}"
+                          data-compare="{{ variant.compare_at_price }}"
+                          {% if variant == v %}selected{% endif %}
+                          {% unless variant.available %}disabled{% endunless %}
+                        >
+                          {{ variant.title }}{% unless variant.available %} — Sold out{% endunless %}
+                        </option>
+                      {%- endfor -%}
+                    </select>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="rk-fbt__summary">
+          {%- if rk_show_badge -%}
+            <p class="rk-fbt__badge">{{ rk_badge_text }}</p>
+          {%- endif -%}
+          <p class="rk-fbt__summary-label">Total price</p>
+          <div class="rk-fbt__summary-price">
+            <span class="rk-fbt__summary-compare" data-rk-fbt-total-compare></span>
+            <span class="rk-fbt__summary-current" data-rk-fbt-total-current></span>
+          </div>
+          <p class="rk-fbt__summary-save" data-rk-fbt-save></p>
+          <p class="rk-fbt__summary-hint" data-rk-fbt-discount-hint></p>
+          <button type="button" class="rk-btn rk-btn--primary rk-fbt__add-btn" data-rk-fbt-add>
+            {{ section.settings.button_label }}
+          </button>
+          <p class="rk-fbt__summary-note" data-rk-fbt-note></p>
+        </div>
+
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  #rk-fbt-{{ section.id }} {
+    --rk-bg: #FAF5EC;
+    --rk-ink: #241811;
+    --rk-ink-soft: #5B4A3C;
+    --rk-brown: #3B2415;
+    --rk-gold: #C99A3D;
+    --rk-red: #9C2E27;
+    --rk-green: #2F5233;
+    --rk-green-dark: #223F26;
+    --rk-line: #E4D9C6;
+    --rk-card-bg: #FFFFFF;
+    --rk-font-display: 'Poppins', -apple-system, sans-serif;
+    --rk-font-body: 'Jost', -apple-system, sans-serif;
+
+    background: var(--rk-bg);
+    color: var(--rk-ink);
+    font-family: var(--rk-font-body);
+    padding: clamp(28px, 4vw, 56px) clamp(16px, 5vw, 56px);
+  }
+
+  #rk-fbt-{{ section.id }} * { box-sizing: border-box; }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__title {
+    font-family: var(--rk-font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 2.2vw, 28px);
+    margin: 0 0 24px;
+    color: var(--rk-ink);
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__empty {
+    padding: 40px 24px;
+    text-align: center;
+    border: 1.5px dashed var(--rk-line);
+    border-radius: 12px;
+    color: var(--rk-ink-soft);
+    font-size: 15px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* ---- Item row ---- */
+  #rk-fbt-{{ section.id }} .rk-fbt__items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__plus {
+    align-self: center;
+    font-family: var(--rk-font-display);
+    font-size: 22px;
+    color: var(--rk-ink-soft);
+    margin-top: 60px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__card {
+    width: 160px;
+    flex: 0 0 160px;
+    transition: opacity 0.15s ease;
+  }
+
+  /* Fewer products in the bundle = bigger cards, no leftover empty space */
+  #rk-fbt-{{ section.id }}[data-count="1"] .rk-fbt__card {
+    width: 240px;
+    flex: 0 0 240px;
+  }
+
+  #rk-fbt-{{ section.id }}[data-count="2"] .rk-fbt__card {
+    width: 200px;
+    flex: 0 0 200px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__card:has(.rk-fbt__checkbox:not(:checked)) {
+    opacity: 0.45;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__imagewrap {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--rk-card-bg);
+    border: 1px solid var(--rk-line);
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__img--placeholder svg { width: 100%; height: 100%; }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__check {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1.5px solid var(--rk-brown);
+    background: #fff;
+    z-index: 2;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__checkbox:checked + .rk-fbt__check {
+    background: var(--rk-green);
+    border-color: var(--rk-green);
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__checkbox:checked + .rk-fbt__check::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__checkbox:disabled + .rk-fbt__check {
+    opacity: 0.4;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__name {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 0 0 6px;
+    color: var(--rk-ink);
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__price {
+    margin: 0 0 8px;
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__compare {
+    text-decoration: line-through;
+    color: var(--rk-ink-soft);
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__current { font-weight: 600; }
+
+  #rk-fbt-{{ section.id }} .rk-pill--soldout {
+    display: inline-block;
+    background: var(--rk-red);
+    color: #FBEFE8;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__select {
+    width: 100%;
+    height: 38px;
+    border: 1.5px solid var(--rk-brown);
+    border-radius: 6px;
+    padding: 0 10px;
+    font-family: var(--rk-font-body);
+    font-size: 13px;
+    color: var(--rk-ink);
+    background: #fff;
+  }
+
+  /* ---- Summary panel ---- */
+  #rk-fbt-{{ section.id }} .rk-fbt__summary {
+    background: var(--rk-card-bg);
+    border: 1.5px solid var(--rk-line);
+    border-radius: 14px;
+    padding: 24px;
+    position: sticky;
+    top: 24px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__badge {
+    display: inline-block;
+    background: var(--rk-gold);
+    color: var(--rk-brown);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 6px 12px;
+    border-radius: 999px;
+    margin: 0 0 14px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__summary-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--rk-ink-soft);
+    margin: 0 0 8px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__summary-price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__summary-compare {
+    text-decoration: line-through;
+    color: var(--rk-ink-soft);
+    font-size: 16px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__summary-current {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__summary-save {
+    font-size: 13px;
+    color: var(--rk-green);
+    font-weight: 600;
+    margin: 0 0 6px;
+    min-height: 18px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__summary-hint {
+    font-size: 12px;
+    color: var(--rk-red);
+    margin: 0 0 14px;
+    min-height: 16px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    border-radius: 8px;
+    font-family: var(--rk-font-body);
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.12s ease;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-btn:active { transform: scale(0.98); }
+
+  #rk-fbt-{{ section.id }} .rk-btn--primary {
+    background: var(--rk-green);
+    color: #F5F1E6;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-btn--primary:hover { background: var(--rk-green-dark); }
+
+  #rk-fbt-{{ section.id }} .rk-btn:disabled {
+    background: #CBD9CC;
+    cursor: not-allowed;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__summary-note {
+    font-size: 12px;
+    color: var(--rk-ink-soft);
+    margin: 10px 0 0;
+    min-height: 16px;
+  }
+
+  @media (max-width: 860px) {
+    #rk-fbt-{{ section.id }} .rk-fbt__layout {
+      grid-template-columns: 1fr;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__summary {
+      position: static;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #rk-fbt-{{ section.id }} .rk-btn,
+    #rk-fbt-{{ section.id }} .rk-fbt__card { transition: none; }
+  }
+</style>
+
+{%- if rk_fbt_count > 0 -%}
+<script>
+  (function () {
+    var root = document.getElementById('rk-fbt-{{ section.id }}');
+    if (!root) return;
+
+    var currencyCode = {{ cart.currency.iso_code | json }};
+    var locale = {{ request.locale.iso_code | default: 'en-IN' | json }};
+
+    // Combo discount config, set in the theme editor
+    var discountType = {{ section.settings.discount_type | json }};       // 'none' | 'percentage' | 'fixed'
+    var discountValue = parseFloat({{ section.settings.discount_value | json }}) || 0;
+    var requireAllItems = {{ section.settings.require_all_items | json }};
+    var totalBlockCount = {{ rk_fbt_count | json }};
+    var discountDisplay = {{ rk_discount_display | default: '' | json }};
+
+    function formatMoney(cents) {
+      try {
+        return new Intl.NumberFormat(locale, { style: 'currency', currency: currencyCode, minimumFractionDigits: 2 }).format(cents / 100);
+      } catch (e) {
+        return (cents / 100).toFixed(2);
+      }
+    }
+
+    var cards = Array.prototype.slice.call(root.querySelectorAll('[data-rk-fbt-card]'));
+    var totalCurrentEl = root.querySelector('[data-rk-fbt-total-current]');
+    var totalCompareEl = root.querySelector('[data-rk-fbt-total-compare]');
+    var saveEl = root.querySelector('[data-rk-fbt-save]');
+    var hintEl = root.querySelector('[data-rk-fbt-discount-hint]');
+    var addBtn = root.querySelector('[data-rk-fbt-add]');
+    var noteEl = root.querySelector('[data-rk-fbt-note]');
+
+    function getCardPricing(card) {
+      var select = card.querySelector('[data-rk-fbt-variant-select]');
+      var hidden = card.querySelector('[data-rk-fbt-variant-id]');
+      if (select) {
+        var opt = select.options[select.selectedIndex];
+        return {
+          id: select.value,
+          price: parseInt(opt.getAttribute('data-price'), 10) || 0,
+          compare: parseInt(opt.getAttribute('data-compare'), 10) || 0
+        };
+      }
+      if (hidden) {
+        return {
+          id: hidden.value,
+          price: parseInt(hidden.getAttribute('data-price'), 10) || 0,
+          compare: parseInt(hidden.getAttribute('data-compare'), 10) || 0
+        };
+      }
+      return { id: null, price: 0, compare: 0 };
+    }
+
+    function recalc() {
+      var total = 0;
+      var totalCompare = 0;
+      var anyChecked = false;
+      var checkedCount = 0;
+
+      cards.forEach(function (card) {
+        var checkbox = card.querySelector('[data-rk-fbt-checkbox]');
+        if (checkbox && checkbox.checked) {
+          anyChecked = true;
+          checkedCount += 1;
+          var pricing = getCardPricing(card);
+          total += pricing.price;
+          totalCompare += pricing.compare > pricing.price ? pricing.compare : pricing.price;
+        }
+      });
+
+      // Work out whether the combo discount applies to the current selection
+      var discountEligible = discountType !== 'none' && discountValue > 0 && anyChecked &&
+        (!requireAllItems || checkedCount === totalBlockCount);
+
+      var discountAmount = 0;
+      if (discountEligible) {
+        if (discountType === 'percentage') {
+          discountAmount = Math.round(total * (discountValue / 100));
+        } else if (discountType === 'fixed') {
+          discountAmount = Math.round(discountValue * 100);
+        }
+        discountAmount = Math.min(discountAmount, total);
+      }
+
+      var finalTotal = total - discountAmount;
+
+      if (totalCurrentEl) totalCurrentEl.textContent = formatMoney(finalTotal);
+      if (totalCompareEl) {
+        if (totalCompare > finalTotal) {
+          totalCompareEl.textContent = formatMoney(totalCompare);
+          totalCompareEl.style.display = '';
+        } else {
+          totalCompareEl.style.display = 'none';
+        }
+      }
+      if (saveEl) {
+        var savings = totalCompare - finalTotal;
+        saveEl.textContent = savings > 0 ? 'You save ' + formatMoney(savings) : '';
+      }
+      if (hintEl) {
+        if (requireAllItems && discountType !== 'none' && discountValue > 0 && anyChecked && checkedCount < totalBlockCount) {
+          hintEl.textContent = 'Select all ' + totalBlockCount + ' items to unlock ' + discountDisplay + ' off';
+        } else {
+          hintEl.textContent = '';
+        }
+      }
+      if (addBtn) addBtn.disabled = !anyChecked;
+    }
+
+    cards.forEach(function (card) {
+      var checkbox = card.querySelector('[data-rk-fbt-checkbox]');
+      var select = card.querySelector('[data-rk-fbt-variant-select]');
+      checkbox && checkbox.addEventListener('change', recalc);
+      select && select.addEventListener('change', recalc);
+    });
+
+    recalc();
+
+    addBtn && addBtn.addEventListener('click', function () {
+      var items = [];
+      cards.forEach(function (card) {
+        var checkbox = card.querySelector('[data-rk-fbt-checkbox]');
+        if (checkbox && checkbox.checked) {
+          var pricing = getCardPricing(card);
+          if (pricing.id) items.push({ id: pricing.id, quantity: 1 });
+        }
+      });
+
+      if (!items.length) return;
+
+      addBtn.disabled = true;
+      var originalText = addBtn.textContent;
+      addBtn.textContent = 'Adding...';
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Add to cart failed');
+          return res.json();
+        })
+        .then(function () {
+          window.location.href = '/cart';
+        })
+        .catch(function () {
+          addBtn.disabled = false;
+          addBtn.textContent = originalText;
+          if (noteEl) noteEl.textContent = 'Something went wrong. Please try again.';
+        });
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Frequently Bought",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Frequently Bought Together" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Add selected to cart" },
+    {
+      "type": "select",
+      "id": "discount_type",
+      "label": "Combo discount type",
+      "options": [
+        { "value": "none", "label": "No extra discount" },
+        { "value": "percentage", "label": "Percentage off" },
+        { "value": "fixed", "label": "Fixed amount off" }
+      ],
+      "default": "none",
+      "info": "Applies on top of each product's own price/compare-at price."
+    },
+    {
+      "type": "number",
+      "id": "discount_value",
+      "label": "Discount value",
+      "default": 0,
+      "info": "Enter a percentage (e.g. 10) or a fixed amount in your store currency (e.g. 5.00), matching the type above."
+    },
+    {
+      "type": "checkbox",
+      "id": "require_all_items",
+      "label": "Only apply discount when every item is selected",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "discount_badge_text",
+      "label": "Combo badge text",
+      "default": "Combo Offer – Extra {discount} off",
+      "info": "Use {discount} as a placeholder, e.g. 'Save {discount} extra!'"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    { "name": "Frequently Bought" }
+  ]
+}
+{% endschema %}

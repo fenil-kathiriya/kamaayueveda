@@ -1,0 +1,595 @@
+{%- comment -%}
+  Section: Raja Maharaja Product Hero (Dynamic)
+  Pulls image, title, vendor, price, compare-at price, and stock status
+  live from a Shopify product selected in the theme editor. Works on the
+  homepage or any page — no need to be inside product.liquid context.
+{%- endcomment -%}
+
+{%- assign rk_product = section.settings.product -%}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+
+<section class="rk-hero" id="rk-hero-{{ section.id }}">
+  {%- if rk_product == blank -%}
+
+    <div class="rk-hero__empty">
+      Select a product in the theme editor to display it here.
+    </div>
+
+  {%- else -%}
+    {%- assign rk_variant = rk_product.selected_or_first_available_variant -%}
+
+    {% form 'product', rk_product, class: 'rk-hero__inner' %}
+
+      <div class="rk-hero__media">
+        {%- if rk_product.featured_media != blank -%}
+          <img
+            class="rk-hero__img"
+            id="rk-media-{{ section.id }}"
+            src="{{ rk_product.featured_media | image_url: width: 1400 }}"
+            alt="{{ rk_product.featured_media.alt | escape | default: rk_product.title }}"
+            loading="eager"
+            width="{{ rk_product.featured_media.width }}"
+            height="{{ rk_product.featured_media.height }}"
+          >
+        {%- else -%}
+          <div class="rk-hero__img rk-hero__img--placeholder">{{ 'image' | placeholder_svg_tag: 'rk-placeholder' }}</div>
+        {%- endif -%}
+
+        {%- if rk_product.media.size > 1 -%}
+        <div class="rk-thumbs">
+          {%- for media in rk_product.media limit: 6 -%}
+            <button type="button" class="rk-thumb{% if forloop.first %} is-active{% endif %}" data-rk-thumb data-src="{{ media | image_url: width: 1400 }}">
+              <img src="{{ media | image_url: width: 160 }}" alt="{{ media.alt | escape }}" width="160" height="160" loading="lazy">
+            </button>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_ribbon -%}
+        <div class="rk-ribbon" aria-hidden="false">
+          <span class="rk-ribbon__top">{{ section.settings.ribbon_topline }}</span>
+          <span class="rk-ribbon__banner">
+            <svg class="rk-ribbon__notch rk-ribbon__notch--left" viewBox="0 0 20 40" preserveAspectRatio="none"><path d="M20 0 L0 20 L20 40 Z"/></svg>
+            <span class="rk-ribbon__text">{{ section.settings.ribbon_priceline }}</span>
+            <svg class="rk-ribbon__notch rk-ribbon__notch--right" viewBox="0 0 20 40" preserveAspectRatio="none"><path d="M0 0 L20 20 L0 40 Z"/></svg>
+          </span>
+        </div>
+        {%- endif -%}
+      </div>
+
+      <div class="rk-hero__info">
+        <p class="rk-eyebrow">{{ rk_product.vendor }}</p>
+        <h1 class="rk-title">{{ rk_product.title }}</h1>
+
+        <div class="rk-price-row">
+          {%- if rk_variant.compare_at_price > rk_variant.price -%}
+            <span class="rk-price rk-price--compare">{{ rk_variant.compare_at_price | money }}</span>
+          {%- endif -%}
+          <span class="rk-price rk-price--current">{{ rk_variant.price | money }}</span>
+          {%- unless rk_variant.available -%}
+            <span class="rk-pill rk-pill--soldout">Sold out</span>
+          {%- endunless -%}
+        </div>
+
+        <p class="rk-shipping">
+          <a href="{{ section.settings.shipping_url | default: '#' }}" class="rk-shipping__link">Shipping</a> calculated at checkout.
+        </p>
+
+        <div class="rk-divider"></div>
+
+        {%- if rk_product.has_only_default_variant == false -%}
+        <div class="rk-variant-block">
+          {%- for option in rk_product.options_with_values -%}
+            <div class="rk-variant-group">
+              <label class="rk-label">{{ option.name }}</label>
+              <select class="rk-select" data-rk-option-index="{{ forloop.index0 }}" name="options[{{ option.name | escape }}]">
+                {%- for value in option.values -%}
+                  <option value="{{ value | escape }}"{% if value == option.selected_value %} selected{% endif %}>{{ value }}</option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+        <input type="hidden" name="id" value="{{ rk_variant.id }}" id="rk-variant-id-{{ section.id }}">
+
+        <div class="rk-qty-block">
+          <label class="rk-label" for="rk-qty-{{ section.id }}">Quantity</label>
+          <div class="rk-stepper">
+            <button type="button" class="rk-stepper__btn" data-rk-decrease aria-label="Decrease quantity">&minus;</button>
+            <input class="rk-stepper__input" id="rk-qty-{{ section.id }}" name="quantity" type="number" min="1" value="1" inputmode="numeric" aria-live="polite">
+            <button type="button" class="rk-stepper__btn" data-rk-increase aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <div class="rk-cta-stack">
+          {%- if rk_variant.available -%}
+            <button type="submit" name="add" class="rk-btn rk-btn--secondary">Add to cart</button>
+            <button type="submit" name="add" class="rk-btn rk-btn--primary" data-rk-buy-now>{{ section.settings.buy_now_label }}</button>
+          {%- else -%}
+            <button type="button" class="rk-btn rk-btn--soldout" disabled>Sold Out</button>
+          {%- endif -%}
+        </div>
+
+        <div class="rk-footer-row">
+          <button type="button" class="rk-footer-link" data-rk-share>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v13M7 8l5-5 5 5M5 21h14"/></svg>
+            Share
+          </button>
+          <a href="{{ rk_product.url }}" class="rk-footer-link rk-footer-link--right">
+            View full details
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+    {% endform %}
+
+  {%- endif -%}
+</section>
+
+<style>
+  #rk-hero-{{ section.id }} {
+    --rk-bg: #FAF5EC;
+    --rk-ink: #241811;
+    --rk-ink-soft: #5B4A3C;
+    --rk-brown: #3B2415;
+    --rk-gold: #C99A3D;
+    --rk-red: #9C2E27;
+    --rk-red-dark: #7A231D;
+    --rk-green: #2F5233;
+    --rk-green-dark: #223F26;
+    --rk-line: #E4D9C6;
+    --rk-font-display: 'Poppins', -apple-system, sans-serif;
+    --rk-font-body: 'Jost', -apple-system, sans-serif;
+
+    background: var(--rk-bg);
+    color: var(--rk-ink);
+    font-family: var(--rk-font-body);
+    padding: clamp(24px, 4vw, 64px) clamp(16px, 5vw, 56px);
+  }
+
+  #rk-hero-{{ section.id }} * { box-sizing: border-box; }
+
+  #rk-hero-{{ section.id }} .rk-hero__empty {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    text-align: center;
+    border: 1.5px dashed var(--rk-line);
+    border-radius: 12px;
+    color: var(--rk-ink-soft);
+    font-size: 15px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-hero__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(28px, 4vw, 64px);
+    align-items: start;
+  }
+
+  /* ---- Media / image side ---- */
+  #rk-hero-{{ section.id }} .rk-hero__media {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(160deg, #1E140D 0%, var(--rk-brown) 55%, #4E3520 100%);
+  }
+
+  #rk-hero-{{ section.id }} .rk-hero__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  #rk-hero-{{ section.id }} .rk-hero__img--placeholder svg { width: 100%; height: 100%; }
+
+  #rk-hero-{{ section.id }} .rk-thumbs {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    background: rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 2;
+    overflow-x: auto;
+  }
+
+  #rk-hero-{{ section.id }} .rk-thumb {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    background: none;
+  }
+
+  #rk-hero-{{ section.id }} .rk-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #rk-hero-{{ section.id }} .rk-thumb.is-active { border-color: var(--rk-gold); }
+
+  /* Signature ribbon element */
+  #rk-hero-{{ section.id }} .rk-ribbon {
+    position: absolute;
+    top: clamp(18px, 3vw, 34px);
+    left: clamp(18px, 3vw, 34px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 2;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35));
+  }
+
+  #rk-hero-{{ section.id }} .rk-ribbon__top {
+    display: inline-block;
+    background: var(--rk-gold);
+    color: var(--rk-brown);
+    font-family: var(--rk-font-body);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    padding: 8px 16px;
+    border-radius: 3px;
+    width: fit-content;
+  }
+
+  #rk-hero-{{ section.id }} .rk-ribbon__banner {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    height: 44px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-ribbon__text {
+    background: var(--rk-red);
+    color: #FBEFE8;
+    font-family: var(--rk-font-body);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    white-space: nowrap;
+    border-top: 1px dashed rgba(251,239,232,0.45);
+    border-bottom: 1px dashed rgba(251,239,232,0.45);
+  }
+
+  #rk-hero-{{ section.id }} .rk-ribbon__notch { width: 12px; height: 44px; flex-shrink: 0; }
+  #rk-hero-{{ section.id }} .rk-ribbon__notch--left path,
+  #rk-hero-{{ section.id }} .rk-ribbon__notch--right path { fill: var(--rk-red-dark); }
+
+  /* ---- Info side ---- */
+  #rk-hero-{{ section.id }} .rk-eyebrow {
+    font-family: var(--rk-font-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--rk-ink-soft);
+    margin: 0 0 10px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-title {
+    font-family: var(--rk-font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.35;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0 0 22px;
+    color: var(--rk-ink);
+  }
+
+  #rk-hero-{{ section.id }} .rk-price-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-price {
+    font-family: var(--rk-font-body);
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  #rk-hero-{{ section.id }} .rk-price--compare {
+    color: var(--rk-ink-soft);
+    text-decoration: line-through;
+    font-size: 18px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-price--current { font-weight: 600; }
+
+  #rk-hero-{{ section.id }} .rk-pill {
+    font-family: var(--rk-font-body);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border-radius: 999px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-pill--soldout { background: var(--rk-red); color: #FBEFE8; }
+
+  #rk-hero-{{ section.id }} .rk-shipping {
+    font-size: 14px;
+    color: var(--rk-ink-soft);
+    margin: 0 0 24px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-shipping__link { color: var(--rk-ink); text-decoration: underline; }
+
+  #rk-hero-{{ section.id }} .rk-divider {
+    height: 1px;
+    background: var(--rk-line);
+    margin-bottom: 24px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-label {
+    display: block;
+    font-family: var(--rk-font-body);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-variant-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-select {
+    height: 46px;
+    padding: 0 14px;
+    border: 1.5px solid var(--rk-brown);
+    border-radius: 8px;
+    background: #fff;
+    font-family: var(--rk-font-body);
+    font-size: 15px;
+    color: var(--rk-ink);
+    min-width: 140px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-qty-block { margin-bottom: 4px; }
+
+  #rk-hero-{{ section.id }} .rk-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid var(--rk-brown);
+    border-radius: 8px;
+    overflow: hidden;
+    width: fit-content;
+  }
+
+  #rk-hero-{{ section.id }} .rk-stepper__btn {
+    width: 44px;
+    height: 46px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: var(--rk-brown);
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  #rk-hero-{{ section.id }} .rk-stepper__btn:hover { background: var(--rk-line); }
+
+  #rk-hero-{{ section.id }} .rk-stepper__input {
+    width: 56px;
+    height: 46px;
+    border: none;
+    border-left: 1.5px solid var(--rk-brown);
+    border-right: 1.5px solid var(--rk-brown);
+    text-align: center;
+    font-family: var(--rk-font-body);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--rk-ink);
+    -moz-appearance: textfield;
+  }
+
+  #rk-hero-{{ section.id }} .rk-stepper__input::-webkit-outer-spin-button,
+  #rk-hero-{{ section.id }} .rk-stepper__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  #rk-hero-{{ section.id }} .rk-cta-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 28px 0 22px;
+  }
+
+  #rk-hero-{{ section.id }} .rk-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    width: 100%;
+    border-radius: 8px;
+    font-family: var(--rk-font-body);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.15s ease;
+  }
+
+  #rk-hero-{{ section.id }} .rk-btn:active { transform: scale(0.98); }
+
+  #rk-hero-{{ section.id }} .rk-btn--soldout {
+    background: #CBD9CC;
+    color: #FFFFFF;
+    cursor: not-allowed;
+  }
+
+  #rk-hero-{{ section.id }} .rk-btn--secondary {
+    background: #FFFFFF;
+    color: var(--rk-brown);
+    border: 1.5px solid var(--rk-brown);
+  }
+
+  #rk-hero-{{ section.id }} .rk-btn--secondary:hover { background: var(--rk-line); }
+
+  #rk-hero-{{ section.id }} .rk-btn--primary {
+    background: var(--rk-green);
+    color: #F5F1E6;
+  }
+
+  #rk-hero-{{ section.id }} .rk-btn--primary:hover { background: var(--rk-green-dark); }
+
+  #rk-hero-{{ section.id }} .rk-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 18px;
+    border-top: 1px solid var(--rk-line);
+  }
+
+  #rk-hero-{{ section.id }} .rk-footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--rk-font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--rk-ink);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #rk-hero-{{ section.id }} .rk-footer-link:hover { color: var(--rk-green-dark); }
+
+  @media (max-width: 860px) {
+    #rk-hero-{{ section.id }} .rk-hero__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #rk-hero-{{ section.id }} .rk-btn { transition: none; }
+  }
+</style>
+
+{%- if rk_product != blank -%}
+<script>
+  (function () {
+    var root = document.getElementById('rk-hero-{{ section.id }}');
+    if (!root) return;
+
+    /* Quantity stepper */
+    var input = root.querySelector('.rk-stepper__input');
+    var dec = root.querySelector('[data-rk-decrease]');
+    var inc = root.querySelector('[data-rk-increase]');
+
+    function clampQty(v) {
+      v = parseInt(v, 10);
+      if (isNaN(v) || v < 1) v = 1;
+      return v;
+    }
+
+    dec && dec.addEventListener('click', function () {
+      input.value = Math.max(1, clampQty(input.value) - 1);
+    });
+    inc && inc.addEventListener('click', function () {
+      input.value = clampQty(input.value) + 1;
+    });
+    input && input.addEventListener('change', function () {
+      input.value = clampQty(input.value);
+    });
+
+    /* Thumbnail gallery */
+    var mainImg = document.getElementById('rk-media-{{ section.id }}');
+    root.querySelectorAll('[data-rk-thumb]').forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        root.querySelectorAll('[data-rk-thumb]').forEach(function (t) { t.classList.remove('is-active'); });
+        thumb.classList.add('is-active');
+        if (mainImg) mainImg.src = thumb.getAttribute('data-src');
+      });
+    });
+
+    /* Variant -> variant id mapping (client-side lookup) */
+    var productVariants = {{ rk_product.variants | json }};
+    var optionSelects = root.querySelectorAll('[data-rk-option-index]');
+    var variantIdField = document.getElementById('rk-variant-id-{{ section.id }}');
+
+    function updateVariant() {
+      if (!optionSelects.length) return;
+      var selectedOptions = [];
+      optionSelects.forEach(function (sel) {
+        selectedOptions[parseInt(sel.getAttribute('data-rk-option-index'), 10)] = sel.value;
+      });
+      var match = productVariants.find(function (v) {
+        return v.options.every(function (opt, i) { return opt === selectedOptions[i]; });
+      });
+      if (match && variantIdField) {
+        variantIdField.value = match.id;
+      }
+    }
+
+    optionSelects.forEach(function (sel) {
+      sel.addEventListener('change', updateVariant);
+    });
+
+    /* Buy now: submit the form, then redirect straight to checkout */
+    var buyNowBtn = root.querySelector('[data-rk-buy-now]');
+    var form = root.querySelector('form');
+    if (buyNowBtn && form) {
+      buyNowBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var formData = new FormData(form);
+        fetch('/cart/add.js', { method: 'POST', body: formData })
+          .then(function (res) { return res.json(); })
+          .then(function () { window.location.href = '/checkout'; })
+          .catch(function (err) { console.error('Add to cart failed', err); });
+      });
+    }
+
+    /* Share */
+    var shareBtn = root.querySelector('[data-rk-share]');
+    shareBtn && shareBtn.addEventListener('click', function () {
+      if (navigator.share) {
+        navigator.share({ title: '{{ rk_product.title | escape }}', url: window.location.href }).catch(function () {});
+      } else {
+        navigator.clipboard && navigator.clipboard.writeText(window.location.href);
+      }
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Raja Maharaja Hero",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "checkbox", "id": "show_ribbon", "label": "Show offer ribbon", "default": true },
+    { "type": "text", "id": "ribbon_topline", "label": "Ribbon top line", "default": "Pay now & get ₹200 off" },
+    { "type": "text", "id": "ribbon_priceline", "label": "Ribbon price line", "default": "Prepaid ₹ 1799 | COD ₹ 1999" },
+    { "type": "text", "id": "buy_now_label", "label": "Buy now button label", "default": "Prepaid Buy now" },
+    { "type": "url", "id": "shipping_url", "label": "Shipping policy link" }
+  ],
+  "presets": [
+    { "name": "Raja Maharaja Hero" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,392 @@
+{%-liquid
+  assign image_size = section.settings.image_size
+  assign paddingTop = ''
+  case image_size
+    when 'portrait'
+    assign paddingTop = '120%'
+    when 'square'
+    assign paddingTop = '100%'
+    when 'landscape'
+    assign paddingTop = '75%'
+    when 'wide'
+    assign paddingTop = '56%'
+  endcase
+-%}
+{% style %}
+  .customstyle{{ section.id }}{
+    --g-padding-s-top: {{ paddingTop }};
+    background-color: {{ section.settings.bgsection }};
+    padding: {{ section.settings.paddingsection }};
+    margin: {{ section.settings.marginsection }};
+  }
+
+  /* Masonry Grid Setup */
+  .testimonial-masonry {
+    column-count: 4;
+    column-gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .testimonial-card {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Image Styling */
+  .testimonial-image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  .testimonial-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* Content Styling */
+  .testimonial-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  /* Author Header */
+  .testimonial-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fce4ec; /* Light pink/grey default */
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+  
+  .author-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: #000;
+    margin: 0;
+  }
+
+  /* Rating Stars */
+  .customstyle{{ section.id }} .rating {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+    display: flex;
+  }
+  .customstyle{{ section.id }} .rating li svg {
+    fill: {{ section.settings.color_rate }};
+    width: 16px;
+    height: 16px;
+  }
+  .customstyle{{ section.id }} .rating li.rated svg {
+    fill: {{ section.settings.color_rated }};
+  }
+
+  /* Quote Text */
+  .testimonial-quote {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
+    margin-bottom: 15px;
+  }
+
+  /* Product Snippet Box */
+  .testimonial-product-box {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: auto;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 1199px) {
+    .testimonial-masonry { column-count: 3; }
+  }
+  @media (max-width: 991px) {
+    .testimonial-masonry { column-count: 2; }
+  }
+  @media (max-width: 767px) {
+    .customstyle{{ section.id }} {
+      padding: {{ section.settings.paddingmobile }};
+      margin: {{ section.settings.marginmobile }};
+    }
+  }
+  @media (max-width: 575px) {
+    .testimonial-masonry { column-count: 1; }
+  }
+{% endstyle %}
+
+{%- render 'style-section' -%}
+<div class="customstyle{{ section.id }}">
+  <div class="{{ section.settings.setwidth }}">
+    <div class="section-block">
+      {%- render 'section-heading' -%}
+      
+      {%- if section.blocks.size > 0 -%}
+        <div class="testimonial-masonry" id="Quotes-{{ section.id }}">
+          {%- for block in section.blocks -%}
+            
+            {%- comment -%} Generate Initials for Avatar {%- endcomment -%}
+            {%- assign name_words = block.settings.author | split: ' ' -%}
+            {%- assign initials = '' -%}
+            {%- for word in name_words limit: 2 -%}
+              {%- assign initial = word | slice: 0, 1 | upcase -%}
+              {%- assign initials = initials | append: initial -%}
+            {%- endfor -%}
+
+            {%- comment -%} Randomize avatar background color slightly based on loop index {%- endcomment -%}
+            {%- assign cycle_color = forloop.index | modulo: 4 -%}
+            {%- capture avatar_bg -%}
+              {%- case cycle_color -%}
+                {%- when 0 -%}#fce4ec
+                {%- when 1 -%}#e3f2fd
+                {%- when 2 -%}#f3e5f5
+                {%- when 3 -%}#e8f5e9
+              {%- endcase -%}
+            {%- endcapture -%}
+
+            <div class="testimonial-card" {{ block.shopify_attributes }} data-aos="{{ section.settings.animation }}" data-aos-duration="500">
+              
+              {%- if block.settings.avatar != blank -%}
+                <div class="testimonial-image-wrapper">
+                  {% assign image = block.settings.avatar %}
+                  <img
+                    srcset="
+                      {%- if image.width >= 165 -%}{{ image | image_url: width: 165 }} 165w,{%- endif -%}
+                      {%- if image.width >= 360 -%}{{ image | image_url: width: 360 }} 360w,{%- endif -%}
+                      {%- if image.width >= 533 -%}{{ image | image_url: width: 533 }} 533w,{%- endif -%}
+                      {%- if image.width >= 720 -%}{{ image | image_url: width: 720 }} 720w,{%- endif -%}
+                      {{ image | image_url }} {{ image.width }}w
+                    "
+                    src="{{ image | image_url: width: 533 }}"
+                    sizes="(min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                    alt="{{ image.alt | escape }}"
+                    class="lazyload"
+                    loading="lazy"
+                    width="{{ image.width }}"
+                    height="{{ image.height }}"
+                  >
+                </div>
+              {%- endif -%}
+
+              <div class="testimonial-content">
+                <div class="testimonial-header">
+                  <div class="author-avatar" style="background-color: {{ avatar_bg }};">
+                    {{ initials }}
+                  </div>
+                  <h4 class="author-name">{{ block.settings.author }}</h4>
+                </div>
+
+                {%- if block.settings.rate > 0 -%}
+                  <ul class="rating">
+                    {%- for i in (1..5) -%}
+                      {%- assign iMax = block.settings.rate -%}
+                      {%- if i <= iMax -%}
+                        <li class="rated">
+                          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                        </li>
+                      {%- else -%}
+                        <li>
+                          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+
+                <div class="testimonial-quote {{ section.settings.size_text }}">
+                  {{ block.settings.quote }}
+                </div>
+
+                {%- if block.settings.product_item != blank -%}
+                  <div class="testimonial-product-box">
+                    {% render 'product-grid-buywith', product: block.settings.product_item, firstimage: false, enablqv: true %}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+  
+      {%- if section.blocks.size == 0 -%}
+        {%- render 'no-blocks' -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+  
+{% schema %}
+{
+  "name": "Testimonials Grid",
+  "class": "index-section",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "select",
+      "id": "animation",
+      "options": [
+        { "value": "", "label": "None" },
+        { "value": "fade", "label": "Fade" },
+        { "value": "fade-up", "label": "Fade Up" },
+        { "value": "fade-down", "label": "Fade Down" }
+      ],
+      "label": "Select Animation",
+      "default": "fade-up"
+    },
+    {
+      "type": "select",
+      "id": "setwidth",
+      "label": "Full Width",
+      "default": "container",
+      "options": [
+        { "value": "container", "label": "Box" },
+        { "value": "container-fluid", "label": "Container Fluid" },
+        { "value": "full", "label": "Full" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bgsection",
+      "label": "Background Section",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "text",
+      "id": "title_top",
+      "label": "Sub Title Top",
+      "default": "Sub Title Top"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "User reviews"
+    },
+    {
+      "type": "textarea",
+      "id": "des",
+      "label": "HTML / Description"
+    },
+    {
+      "type": "color",
+      "id": "color_rate",
+      "label": "Empty Star Color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "color_rated",
+      "label": "Rated Star Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding "
+    },
+    {
+      "type": "text",
+      "id": "paddingsection",
+      "label": "Padding Section",
+      "default": "40px 0px 40px 0px",
+      "info": "Padding: Top Right Bottom Left"
+    },
+    {
+      "type": "text",
+      "id": "paddingmobile",
+      "label": "Padding Section Mobile",
+      "default": "20px 0px 20px 0px",
+      "info": "Padding: Top Right Bottom Left"
+    },
+    {
+      "type": "header",
+      "content": "Section Margin "
+    },
+    {
+      "type": "text",
+      "id": "marginsection",
+      "label": "Margin Section",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "marginmobile",
+      "label": "Margin Mobile",
+      "default": "0px 0px 0px 0px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Customer Image"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author Name",
+          "default": "Author's name"
+        },
+        {
+          "type": "range",
+          "id": "rate",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "label": "Rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review Text",
+          "default": "Add customer reviews and testimonials to showcase your store’s happy customers."
+        },
+        {
+          "type": "product",
+          "id": "product_item",
+          "label": "Referenced Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials Grid",
+      "category": "Text",
+      "blocks": [
+        { "type": "quote" },
+        { "type": "quote" },
+        { "type": "quote" },
+        { "type": "quote" }
+      ]
+    }
+  ]
+}
+{% endschema %}

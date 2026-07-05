@@ -1,0 +1,411 @@
+<!-- trust-badges.liquid -->
+
+{%- liquid
+  assign icon_map_string = 'medical: ⚕️|shield: 🛡️|test-tube: 🧪|star: ⭐|heart: ❤️|leaf: 🌿|check: ✅|award: 🏆|truck: 🚚|lock: 🔒|clock: ⏰|thumbs-up: 👍|gift: 🎁|globe: 🌍|fire: 🔥|bolt: ⚡|drop: 💧|scale: ⚖️|recycle: ♻️|phone: 📞|mail: ✉️|location: 📍|calendar: 📅|money: 💰|gem: 💎|rocket: 🚀|target: 🎯|book: 📖|sparkle: ✨|smile: 😊'
+  assign icon_map = icon_map_string | split: '|'
+-%}
+
+<style>
+  .customstyle{{ section.id }} {
+    --g-icon-size: {{ section.settings.size | append: 'px' }};
+    --g-card-bg: {{ section.settings.card_bg }};
+    --g-card-radius: {{ section.settings.card_radius }}px;
+    --g-title-color: {{ section.settings.titlecolor }};
+    --g-subtitle-color: {{ section.settings.subtitlecolor }};
+    --g-desc-color: {{ section.settings.desccolor }};
+    --g-min-card-width: {{ section.settings.min_card_width }}px;
+    --g-gap: {{ section.settings.card_gap }}px;
+  }
+  .trust-badges-{{ section.id }} {
+    padding: {{ section.settings.paddingsection }};
+  }
+  .trust-badges-{{ section.id }} .trust-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--g-min-card-width), 100%), 1fr));
+    gap: var(--g-gap);
+  }
+  .trust-badges-{{ section.id }} .trust-badge-card {
+    background-color: var(--g-card-bg);
+    border-radius: var(--g-card-radius);
+    padding: 48px 32px;
+    text-align: center;
+  }
+  .trust-badges-{{ section.id }} .trust-badge-icon {
+    font-size: var(--g-icon-size);
+    line-height: 1;
+    margin-bottom: 24px;
+    display: inline-block;
+  }
+  .trust-badges-{{ section.id }} .trust-badge-icon svg {
+    width: var(--g-icon-size);
+    height: var(--g-icon-size);
+    stroke: var(--g-title-color);
+    fill: none;
+    stroke-width: 2px;
+  }
+  .trust-badges-{{ section.id }} .trust-badge-icon img {
+    width: var(--g-icon-size);
+    height: var(--g-icon-size);
+    object-fit: contain;
+  }
+  .trust-badges-{{ section.id }} .trust-badge-title {
+    color: var(--g-title-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .trust-badges-{{ section.id }} .trust-badge-subtitle {
+    color: var(--g-subtitle-color);
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .trust-badges-{{ section.id }} .trust-badge-description {
+    color: var(--g-desc-color);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .trust-badges-{{ section.id }} .trust-badge-description strong {
+    color: var(--g-desc-color);
+    font-weight: 700;
+  }
+  .trust-badges-{{ section.id }} .trust-badges-heading h2 {
+    color: {{ section.settings.heading_color }};
+  }
+  .trust-badges-{{ section.id }} .trust-badges-heading .subtitle-top {
+    color: {{ section.settings.heading_top_color }};
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  @media (max-width: 767px) {
+    .trust-badges-{{ section.id }} {
+      padding: {{ section.settings.paddingmobile }};
+    }
+    .trust-badges-{{ section.id }} .trust-badges-grid {
+      grid-template-columns: 1fr;
+    }
+    .trust-badges-{{ section.id }} .trust-badge-card {
+      padding: 32px 20px;
+    }
+  }
+</style>
+
+<div class="customstyle{{ section.id }} trust-badges-{{ section.id }}" data-aos="{{ section.settings.animation }}">
+  <div class="{{ section.settings.setwidth }}">
+
+    {%- if section.settings.title_top != blank or section.settings.title != blank or section.settings.des != blank -%}
+      <div class="trust-badges-heading text-{{ section.settings.align_heading }} mb-5">
+        {%- if section.settings.title_top != blank -%}
+          <p class="subtitle-top">{{ section.settings.title_top }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2>{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.des != blank -%}
+          <div class="rte">{{ section.settings.des }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="trust-badges-grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign icon_emoji = ''
+          for pair in icon_map
+            assign pair_parts = pair | split: ':'
+            assign k = pair_parts | first | strip
+            if k == block.settings.icon_select
+              assign icon_emoji = pair_parts | last | strip
+            endif
+          endfor
+        -%}
+        <div class="trust-badge-card-wrapper" {{ block.shopify_attributes }}>
+          <div class="trust-badge-card" data-aos="{{ section.settings.animation }}" data-aos-delay="{{ forloop.index | times: 100 }}">
+            <div class="trust-badge-icon">
+              {%- case block.settings.icon_type -%}
+                {%- when 'preset' -%}
+                  {{ icon_emoji | default: '⭐' }}
+                {%- when 'custom_emoji' -%}
+                  {{ block.settings.custom_emoji | default: '⭐' }}
+                {%- when 'image' -%}
+                  {%- if block.settings.image_icon != blank -%}
+                    {{ block.settings.image_icon | image_url: width: 200 | image_tag: loading: 'lazy' }}
+                  {%- else -%}
+                    {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {%- endif -%}
+                {%- when 'svg' -%}
+                  {{ block.settings.svg_icon | default: '⭐' }}
+              {%- endcase -%}
+            </div>
+
+            {%- if block.settings.title != blank -%}
+              <div class="trust-badge-title">{{ block.settings.title }}</div>
+            {%- endif -%}
+
+            {%- if block.settings.subtitle != blank -%}
+              <div class="trust-badge-subtitle">{{ block.settings.subtitle }}</div>
+            {%- endif -%}
+
+            {%- if block.settings.description != blank -%}
+              <div class="trust-badge-description">{{ block.settings.description }}</div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.blocks.size == 0 -%}
+      {%- render 'no-blocks' -%}
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Badges",
+  "class": "index-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "Select Animation",
+      "options": [
+        { "value": "", "label": "None" },
+        { "value": "fade", "label": "Fade" },
+        { "value": "fade-up", "label": "Fade Up" },
+        { "value": "fade-down", "label": "Fade Down" },
+        { "value": "zoom-in", "label": "Zoom In" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "setwidth",
+      "label": "Full Width",
+      "default": "container",
+      "options": [
+        { "value": "container", "label": "Box" },
+        { "value": "container-fluid", "label": "Container Fluid" },
+        { "value": "full", "label": "Full" }
+      ]
+    },
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "title_top", "label": "Sub Title Top" },
+    { "type": "color", "id": "heading_top_color", "label": "Sub Title Top Color", "default": "#3f6b3f" },
+    { "type": "text", "id": "title", "label": "Title" },
+    { "type": "color", "id": "heading_color", "label": "Title Color", "default": "#222222" },
+    { "type": "richtext", "id": "des", "label": "Description" },
+    {
+      "type": "select",
+      "id": "align_heading",
+      "label": "Align Heading",
+      "default": "center",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    { "type": "header", "content": "Grid Layout" },
+    {
+      "type": "range",
+      "id": "min_card_width",
+      "min": 180,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Minimum Card Width",
+      "default": 240,
+      "info": "Cards auto-wrap based on this width — add or remove blocks and the grid adjusts automatically."
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap Between Cards",
+      "default": 24
+    },
+    { "type": "header", "content": "Card Style" },
+    { "type": "color", "id": "card_bg", "label": "Card Background", "default": "#f5f5f4" },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Corner Radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "size",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon Size",
+      "default": 44
+    },
+    { "type": "color", "id": "titlecolor", "label": "Title Color", "default": "#3f6b3f" },
+    { "type": "color", "id": "subtitlecolor", "label": "Subtitle Color", "default": "#3f6b3f" },
+    { "type": "color", "id": "desccolor", "label": "Description Color", "default": "#444444" },
+    { "type": "header", "content": "Section Padding" },
+    {
+      "type": "text",
+      "id": "paddingsection",
+      "label": "Padding Section",
+      "default": "60px 0px 60px 0px",
+      "info": "Padding: Top Right Bottom Left"
+    },
+    {
+      "type": "text",
+      "id": "paddingmobile",
+      "label": "Padding Section Mobile",
+      "default": "40px 0px 40px 0px",
+      "info": "Padding: Top Right Bottom Left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon Source",
+          "default": "preset",
+          "options": [
+            { "value": "preset", "label": "Choose From Icon List" },
+            { "value": "custom_emoji", "label": "Custom Emoji" },
+            { "value": "image", "label": "Upload Image" },
+            { "value": "svg", "label": "Custom SVG Code" }
+          ],
+          "info": "Pick how this badge's icon is managed."
+        },
+        {
+          "type": "select",
+          "id": "icon_select",
+          "label": "Icon (from list)",
+          "default": "star",
+          "options": [
+            { "value": "medical", "label": "Medical / Physician" },
+            { "value": "shield", "label": "Shield / Certified" },
+            { "value": "test-tube", "label": "Test Tube / Lab Tested" },
+            { "value": "star", "label": "Star / Rating" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "leaf", "label": "Leaf / Natural" },
+            { "value": "check", "label": "Checkmark" },
+            { "value": "award", "label": "Award / Trophy" },
+            { "value": "truck", "label": "Truck / Shipping" },
+            { "value": "lock", "label": "Lock / Secure" },
+            { "value": "clock", "label": "Clock / Fast" },
+            { "value": "thumbs-up", "label": "Thumbs Up" },
+            { "value": "gift", "label": "Gift" },
+            { "value": "globe", "label": "Globe / Worldwide" },
+            { "value": "fire", "label": "Fire / Trending" },
+            { "value": "bolt", "label": "Bolt / Energy" },
+            { "value": "drop", "label": "Drop / Purity" },
+            { "value": "scale", "label": "Scale / Balance" },
+            { "value": "recycle", "label": "Recycle / Eco" },
+            { "value": "phone", "label": "Phone / Support" },
+            { "value": "mail", "label": "Mail / Contact" },
+            { "value": "location", "label": "Location" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "money", "label": "Money / Value" },
+            { "value": "gem", "label": "Gem / Premium" },
+            { "value": "rocket", "label": "Rocket / Fast Results" },
+            { "value": "target", "label": "Target / Goal" },
+            { "value": "book", "label": "Book / Education" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "smile", "label": "Smile / Satisfaction" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "custom_emoji",
+          "label": "Custom Emoji",
+          "info": "Only used if Icon Source is set to 'Custom Emoji'. Paste any emoji here."
+        },
+        {
+          "type": "image_picker",
+          "id": "image_icon",
+          "label": "Icon Image",
+          "info": "Only used if Icon Source is set to 'Upload Image'."
+        },
+        {
+          "type": "textarea",
+          "id": "svg_icon",
+          "label": "Custom SVG Code",
+          "info": "Only used if Icon Source is set to 'Custom SVG Code'."
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "PHYSICIAN FORMULATED" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "16+ Years Clinical Experience" },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Created by <strong>Dr. Ish Handa (BAMS)</strong>, a practicing Ayurvedic physician with over 16 years treating real patients.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Badges",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": {
+            "icon_type": "preset",
+            "icon_select": "medical",
+            "title": "PHYSICIAN FORMULATED",
+            "subtitle": "16+ Years Clinical Experience",
+            "description": "<p>Created by <strong>Dr. Ish Handa (BAMS)</strong>, a practicing Ayurvedic physician with over 16 years treating real patients.</p>"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon_type": "preset",
+            "icon_select": "shield",
+            "title": "GOVERNMENT CERTIFIED",
+            "subtitle": "AYUSH & GMP Approved",
+            "description": "<p>All products certified by <strong>Ministry of AYUSH</strong> and manufactured in <strong>GMP-certified</strong> facilities.</p>"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon_type": "preset",
+            "icon_select": "test-tube",
+            "title": "THIRD-PARTY TESTED",
+            "subtitle": "Purity Guaranteed",
+            "description": "<p>Every batch independently tested for <strong>heavy metals, pesticides</strong>, and potency. No compromises.</p>"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon_type": "preset",
+            "icon_select": "star",
+            "title": "PROVEN RESULTS",
+            "subtitle": "4.8/5 Customer Rating",
+            "description": "<p>Thousands of verified customers report <strong>life-changing improvements</strong> in energy, digestion, and wellness.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
