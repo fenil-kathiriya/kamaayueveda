@@ -1,7 +1,6 @@
 <!-- advanced-content.liquid -->
 {%-liquid
   assign text_color = section.settings.text_color
-  assign mobile_layout_web_base = section.settings.mobile_layout_web_base
 -%}
 <style>
   .customstyle{{ section.id }}{
@@ -25,16 +24,6 @@
     height: {{ section.settings.rangebg }}%;
     background-color: {{ section.settings.bgbefore }};
   }
-  {% if mobile_layout_web_base %}
-    @media (max-width: 767px) {
-      .customstyle{{ section.id }} .col-1-5 {
-        flex: 0 0 20%;
-        max-width: 20%;
-        padding-right: var(--g-hgutter);
-        padding-left: var(--g-hgutter);
-      }
-    }
-  {% endif %}
 </style>
 <section class="customstyle{{ section.id }} lazyload {{ section.settings.text_color }}"
     data-bgset="{% render 'bgset', image: section.settings.image_bg %}"
@@ -48,55 +37,30 @@
       <div class="row {% unless section.settings.padding %} m-0{% endunless %} {% if section.settings.col_center %} justify-content-center {% endif %}">
         {%- for block in section.blocks -%}
           {%- liquid
-            if mobile_layout_web_base
-              case block.settings.width 
-              when 'auto' 
-                assign block_width = 'col' 
-              when '20%' 
-                assign block_width = 'col-1-5' 
-              when '25%' 
-                assign block_width = 'col-3' 
-              when '33%' 
-                assign block_width = 'col-4' 
-              when '41%' 
-                assign block_width = 'col-5' 
-              when '50%' 
-                assign block_width = 'col-6' 
-              when '58%' 
-                assign block_width = 'col-7' 
-              when '66%' 
-                assign block_width = 'col-8' 
-              when '75%' 
-                assign block_width = 'col-9' 
-              when '100%' 
-                assign block_width = 'col-12' 
-              endcase
-            else
-              case block.settings.width 
-              when 'auto' 
-                assign block_width = 'col-lg col-12' 
-              when '20%' 
-                assign block_width = 'col-1-5 col-md-6 col-12' 
-              when '25%' 
-                assign block_width = 'col-lg-3 col-md-6 ' 
-              when '33%' 
-                assign block_width = 'col-lg-4 col-md-6 ' 
-              when '41%' 
-                assign block_width = 'col-lg-5 col-md-12 ' 
-              when '50%' 
-                assign block_width = 'col-lg-6 ' 
-              when '58%' 
-                assign block_width = 'col-lg-7 col-md-12 ' 
-              when '66%' 
-                assign block_width = 'col-lg-8 col-md-12 ' 
-              when '75%' 
-                assign block_width = 'col-lg-9 col-md-12 ' 
-              when '100%' 
-                assign block_width = 'col-12 ' 
-              endcase
-            endif
+            case block.settings.width 
+            when 'auto' 
+              assign block_width = 'col-lg col-12' 
+            when '20%' 
+              assign block_width = 'col-1-5 col-md-6 col-12' 
+            when '25%' 
+              assign block_width = 'col-lg-3 col-md-6 ' 
+            when '33%' 
+              assign block_width = 'col-lg-4 col-md-6 ' 
+            when '41%' 
+              assign block_width = 'col-lg-5 col-md-12 ' 
+            when '50%' 
+              assign block_width = 'col-lg-6 ' 
+            when '58%' 
+              assign block_width = 'col-lg-7 col-md-12 ' 
+            when '66%' 
+              assign block_width = 'col-lg-8 col-md-12 ' 
+            when '75%' 
+              assign block_width = 'col-lg-9 col-md-12 ' 
+            when '100%' 
+              assign block_width = 'col-12 ' 
+          endcase 
           -%}
-          <div class="{{ block_width }} {% if mobile_layout_web_base %}mb-0{% else %}mb-4 mb-sm-0{% endif %} align-self-{{ block.settings.align }} adv-{{ block.type }} {% unless section.settings.padding %} p-0{% endunless %}" {{ block.shopify_attributes }}>
+          <div class="{{ block_width }} mb-4 mb-sm-0 align-self-{{ block.settings.align }} adv-{{ block.type }} {% unless section.settings.padding %} p-0{% endunless %}" {{ block.shopify_attributes }}>
             <div class="grid__item-inner grid__item-inner--{{ block.type }}">
               {%- case block.type -%}
                 {%- when 'html' -%}
@@ -473,12 +437,6 @@
   "name": "Advanced Content",
   "max_blocks": 12,
   "settings": [
-    {
-      "type": "checkbox",
-      "id": "mobile_layout_web_base",
-      "label": "Keep desktop layout on mobile",
-      "default": false
-    },
     {
       "type": "select",
       "id": "animation",
