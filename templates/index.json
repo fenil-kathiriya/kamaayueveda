@@ -73,9 +73,9 @@
       "name": "Raja Maharaja Hero",
       "settings": {
         "product": "fire-bolt-kama-vati-gold-100-ayurvedic-herbal-wellness-tablets-premium-mens-vitality-supplement-45-gold-vati",
-        "show_ribbon": true,
-        "ribbon_topline": "Pay now & get ₹200 off",
-        "ribbon_priceline": "Prepaid ₹ 1799 | COD ₹ 1999",
+        "show_ribbon": false,
+        "ribbon_topline": "Pay now & get ₹50 off",
+        "ribbon_priceline": "Prepaid ₹ 450 | COD ₹ 500",
         "buy_now_label": "Prepaid Buy now",
         "shipping_url": ""
       }
