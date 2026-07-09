@@ -44,7 +44,36 @@
         "regular_price": "नियमित मूल्य",
         "sale_price": "बिक्री मूल्य",
         "unit_price": "इकाई मूल्य"
-      }
+      },
+      "hurrify": "जल्दी करें, स्टॉक में {{ number }} वस्तुएँ बची हैं!",
+      "sold_out": "बिक गया",
+      "waitlist": "प्रतीक्षा सूची में शामिल हों",
+      "available": "उपलब्ध",
+      "unavailable": "उपलब्ध नहीं है",
+      "will_not_ship_until": "{{ date }} तक शिप नहीं किया जाएगा",
+      "will_be_in_stock_after": "{{ date }} के बाद स्टॉक में होगा",
+      "sale_price": "बिक्री मूल्य",
+      "vendor": "विक्रेता",
+      "type": "प्रकार",
+      "regular_price": "नियमित मूल्य",
+      "on_sale": "बिक्री",
+      "on_sale_from_html": "से बिक्री पर {{ price }}",
+      "from_text_html": "से {{ price }}",
+      "include_taxes": "कर सहित।",
+      "shipping_policy_html": "<a href=\"&lt;span%20class='notranslate'&gt;{{%20link%20}}&lt;/span&gt;\">शिपिंग</a> का हिसाब चेकआउट पर लगाया जाएगा।",
+      "quantity": "मात्रा",
+      "add_to_cart": "कार्ट में जोड़ें",
+      "add_to": "जोड़ें",
+      "pre_order": "प्री-ऑर्डर करें",
+      "full_details": "पूरा विवरण",
+      "quickview_text": "क्विकशॉप",
+      "wishlist_no_result": "आपकी विशलिस्ट में कोई प्रोडक्ट नहीं है!",
+      "wishlist_text": "इच्छा सूची",
+      "wishlist_remove": "हटाएँ",
+      "wishlist_notice_added": "उत्पाद आपकी इच्छा-सूची में जोड़ दिया गया है!",
+      "wishlist_notice_removed": "आइटम आपकी विशलिस्ट में जोड़ दिया गया है!",
+      "add_to_wishlist": "मनपसंद में जोड़ें",
+      "view_wishlist": "विशलिस्ट पर जाएं"
     },
     "facets": {
       "apply": "आवेदन करें",
@@ -124,5 +153,105 @@
     "language_label": "भाषा",
     "update_language": "भाषा अपडेट करें",
     "update_country": "देश/क्षेत्र अपडेट करें"
+  },
+  "customer": {
+    "addresses": {
+      "delete_confirm": "क्या आप वाकई यह पता हटाना चाहते हैं?"
+    },
+    "login": {
+      "title": "लॉगिन करें",
+      "email": "ईमेल",
+      "password": "पासवर्ड",
+      "forgot_password": "पासवर्ड भूल गए?",
+      "sign_in": "लॉगिन करें",
+      "guest_title": "अतिथि के तौर पर जारी रखें",
+      "guest_continue": "जारी रखें"
+    },
+    "orders": {
+      "title": "आदेश इतिहास",
+      "order_number": "आदेशित",
+      "date": "दिनांक",
+      "payment_status": "भुगतान की स्थिति",
+      "fulfillment_status": "पूर्ति की स्थिति",
+      "total": "कुल",
+      "none": "आपने अभी तक कोई ऑर्डर नहीं दिया है।"
+    },
+    "order": {
+      "title": "ऑर्डर {{ name }}",
+      "date": "{{ date }} को रखा गया",
+      "cancelled": "ऑर्डर {{ date }} को रद्द कर दिया गया",
+      "cancelled_reason": "कारण: {{ reason }}",
+      "billing_address": "बिलिंग पता",
+      "payment_status": "भुगतान की स्थिति",
+      "shipping_address": "शिपिंग पता",
+      "fulfillment_status": "पूर्ति की स्थिति",
+      "discount": "छूट",
+      "shipping": "शिपिंग",
+      "tax": "कर",
+      "product": "उत्पाद",
+      "price": "कीमत",
+      "quantity": "मात्रा",
+      "total": "कुल",
+      "fulfilled_at": "पूरा हुआ {{ date }}",
+      "subtotal": "उपयोग",
+      "track_shipment": "शिपमेंट को ट्रैक करें"
+    },
+    "recover_password": {
+      "title": "अपना पासवर्ड रीसेट करें",
+      "email": "ईमेल",
+      "submit": "प्रस्तुत करें",
+      "cancel": "लॉगिन पर वापस जाएँ",
+      "subtext": "हम आपको अपना पासवर्ड रीसेट करने के लिए एक ईमेल भेजेंगे।",
+      "success": "हमने आपको अपना पासवर्ड अपडेट करने के लिए लिंक के साथ एक ईमेल भेजा है।"
+    },
+    "reset_password": {
+      "title": "खाता पासवर्ड रीसेट करें",
+      "subtext": "{{ email }} के लिए एक नया पासवर्ड डालें",
+      "password": "पासवर्ड",
+      "password_confirm": "पासवर्ड की पुष्टि करें",
+      "submit": "पासवर्ड रीसेट करें"
+    },
+    "register": {
+      "title": "पंजीकृत करें",
+      "sub_title": "कृपया नीचे दिए गए फ़ील्ड भरें",
+      "first_name": "पहला नाम",
+      "last_name": "उपनाम",
+      "email": "ईमेल",
+      "password": "पासवर्ड",
+      "submit": "बनाएँ",
+      "already": "पहले से सदस्य हैं?",
+      "login": "लॉगिन करें"
+    }
+  },
+  "homepage": {
+    "hero": {
+      "next_slide": "अगली स्लाइड",
+      "previous_slide": "पिछली स्लाइड",
+      "pause_slideshow": "स्लाइड शो रोकें",
+      "play_slideshow": "स्लाइड शो चलाएँ",
+      "navigation_instructions": "स्लाइडशो में जाने के लिए बाएं/दाएं तीर का उपयोग करें या यदि आप मोबाइल डिवाइस का उपयोग कर रहे हैं तो बाएं/दाएं स्वाइप करें",
+      "slide_number": "स्लाइड {{ slide_number }}, वर्तमान"
+    },
+    "onboarding": {
+      "blog_title": "आपके पोस्ट का शीर्षक",
+      "product_title": "उदाहरण उत्पाद शीर्षक",
+      "collection_title": "संग्रह का शीर्षक",
+      "no_content": "इस खंड में वर्तमान में कोई सामग्री शामिल नहीं है। साइडबार का उपयोग करके इस खंड में सामग्री जोड़ें।"
+    }
+  },
+  "layout": {
+    "cart": {
+      "title": "कार्ट"
+    },
+    "customer": {
+      "account": "खाता",
+      "log_out": "लॉग आउट करें",
+      "create_account": "पंजीकृत करें",
+      "question_account": "नए ग्राहक?",
+      "sub_login": "कृपया अपना ईमेल और पासवर्ड दर्ज करें:"
+    },
+    "sidebar": {
+      "featured_products": "विशेष उत्पाद"
+    }
   }
 }
