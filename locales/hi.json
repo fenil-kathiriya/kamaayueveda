@@ -1,0 +1,128 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "products": {
+    "product": {
+      "compare_no_result": "तुलना सूची में कोई उत्पाद नहीं है!",
+      "compare_text": "तुलना करें",
+      "compare_remove": "हटाएँ",
+      "compare_notice_added": "तुलना सूची में आइटम जोड़ा गया!",
+      "compare_notice_removed": "तुलना सूची से आइटम हटाया गया!",
+      "compare_notice_maximum": "अधिकतम 4 आइटम",
+      "countdown_end_time": "डील खत्म करें",
+      "view": "देखें",
+      "sku": "SKU (एसकेयू)",
+      "soldout_messenger": "बताएं कि यह आइटम कब उपलब्ध होगा",
+      "view_more": "और देखें",
+      "stock_available": {
+        "one": "{{ count }} उपलब्ध",
+        "other": "{{ count }} उपलब्ध"
+      },
+      "collection_return": "{{ collection }} पर वापस जाएँ",
+      "product_added_to_cart_html": "आइटम कार्ट में डाल दिए गए हैं।",
+      "stock_unavailable": "आइटम को आपके कार्ट में नहीं जोड़ा जा सका क्योंकि स्टॉक में पर्याप्त आइटम नहीं हैं।",
+      "xr_button": "अपने स्थान में देखें",
+      "xr_button_label": "अपने स्पेस में देखें, संवर्धित वास्तविकता विंडो में आइटम लोड करता है",
+      "pickup_availability": {
+        "view_store_info": "स्टोर की जानकारी देखें",
+        "check_other_stores": "अन्य स्टोर में उपलब्धता देखें",
+        "pick_up_available": "पिकअप उपलब्ध है",
+        "pick_up_available_at_html": "पिकअप यहां उपलब्ध है: <span class=\"color-foreground\">{{ location_name }}</span>",
+        "pick_up_unavailable_at_html": "पिकअप वर्तमान में <span class=\"color-foreground\">{{ location_name }}</span> पर उपलब्ध नहीं है",
+        "unavailable": "पिकअप उपलब्धता लोड नहीं की जा सकी",
+        "refresh": "रिफ्रेश करें"
+      },
+      "price": {
+        "from_price_html": "से {{ price }}",
+        "regular_price": "नियमित मूल्य",
+        "sale_price": "बिक्री मूल्य",
+        "unit_price": "इकाई मूल्य"
+      }
+    },
+    "facets": {
+      "apply": "आवेदन करें",
+      "clear": "स्पष्ट",
+      "clear_all": "सभी साफ़ करें",
+      "from": "प्रेषक",
+      "filter_and_sort": "फ़िल्टर करें और सॉर्ट करें",
+      "filter_by_label": "फ़िल्टर करें:",
+      "filter_button": "फ़िल्टर करें",
+      "filters_selected": {
+        "one": "{{ count }} चयनित",
+        "other": "{{ count }} चयनित"
+      },
+      "t_price": "मूल्य :",
+      "max_price": "सबसे ज़्यादा क़ीमत है",
+      "product_count": {
+        "one": "{{ product_count }}/ {{ count }} उत्पाद",
+        "other": "{{ product_count }} में से {{ count }} उत्पाद"
+      },
+      "product_count_simple": {
+        "one": "{{ count }} उत्पाद",
+        "other": "{{ count }} उत्पाद"
+      },
+      "reset": "रीसेट करें",
+      "sort_button": "क्रमबद्ध करें",
+      "sort_by_label": "क्रमबद्ध करें:",
+      "to": "को",
+      "clear_filter": "फ़िल्टर साफ़ करें",
+      "show_more": "और दिखाओ",
+      "show_less": "कम दिखाएं"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title_html": "यहाँ आपके {{ shop }} के लिए {{ value }} का उपहार कार्ड है!",
+      "subtext": "यह रहा आपका उपहार कार्ड!",
+      "disabled": "विकलांग",
+      "expired": "की समय सीमा समाप्त हो गई है {{ expiry }}",
+      "active": "{{ expiry }} पर समाप्त होगा",
+      "redeem": "अपना उपहार कार्ड रिडीम करने के लिए चेकआउट पर इस कोड का उपयोग करें",
+      "shop_link": "खरीदारी शुरू करें",
+      "print": "प्रिंट करें",
+      "remaining_html": "{{ balance }} बचा है",
+      "add_to_apple_wallet": "Apple Wallet में जोड़ें"
+    }
+  },
+  "date_formats": {
+    "month_day_year": "%e %B %Y",
+    "motth": "%ख"
+  },
+  "templates": {
+    "search": {
+      "no_results": "\"{{ terms }}\" के लिए कोई परिणाम नहीं मिला। वर्तनी की जाँच करें या किसी भिन्न शब्द या वाक्यांश का उपयोग करें।",
+      "page": "पृष्ठ",
+      "products": "उत्पाद",
+      "results_with_count": {
+        "one": "{{ count }} परिणाम",
+        "other": "{{ count }} परिणाम"
+      },
+      "results_with_count_and_term": {
+        "one": "\"{{ terms }}\" के लिए {{ count }} परिणाम मिले",
+        "other": "{{ count }} परिणाम मिले \"{{ terms }}\" के लिए"
+      },
+      "title": "खोज परिणाम",
+      "search_for": "\"{{ terms }}\" के लिए खोजें"
+    }
+  },
+  "video": {
+    "play": "वीडियो चलाओ",
+    "close": "वीडियो रोकें"
+  },
+  "onboarding": {
+    "product_title": "उत्पाद शीर्षक उदाहरण"
+  },
+  "localization": {
+    "country_label": "देश/क्षेत्र",
+    "language_label": "भाषा",
+    "update_language": "भाषा अपडेट करें",
+    "update_country": "देश/क्षेत्र अपडेट करें"
+  }
+}
