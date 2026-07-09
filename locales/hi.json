@@ -156,7 +156,27 @@
   },
   "customer": {
     "addresses": {
-      "delete_confirm": "क्या आप वाकई यह पता हटाना चाहते हैं?"
+      "delete_confirm": "क्या आप वाकई यह पता हटाना चाहते हैं?",
+      "title": "आपके पते",
+      "default": "डिफ़ॉल्ट",
+      "add_new": "नया पता जोड़ें",
+      "edit_address": "पता संपादित करें",
+      "first_name": "पहला नाम",
+      "last_name": "उपनाम",
+      "company": "कंपनी",
+      "address1": "पता1",
+      "address2": "पता2",
+      "city": "शहर",
+      "country": "देश",
+      "province": "प्रांत",
+      "zip": "डाक/ज़िप कोड",
+      "phone": "फ़ोन",
+      "set_default": "डिफ़ॉल्ट पते के रूप में सेट करें",
+      "add": "पता जोड़ें",
+      "update": "पता अपडेट करें",
+      "cancel": "रद्द करें",
+      "edit": "संपादित करें",
+      "delete": "मिटाएँ"
     },
     "login": {
       "title": "लॉगिन करें",
@@ -221,6 +241,20 @@
       "submit": "बनाएँ",
       "already": "पहले से सदस्य हैं?",
       "login": "लॉगिन करें"
+    },
+    "account": {
+      "title": "मेरा खाता",
+      "details": "खाता विवरण",
+      "view_addresses": "पते देखें",
+      "return": "खाता विवरण पर वापस जाएँ"
+    },
+    "activate_account": {
+      "title": "खाता सक्रिय करें",
+      "subtext": "अपना खाता सक्रिय करने के लिए अपना पासवर्ड बनाएं।",
+      "password": "पासवर्ड",
+      "password_confirm": "पासवर्ड की पुष्टि करें",
+      "submit": "खाता सक्रिय करें",
+      "cancel": "निमंत्रण अस्वीकार करें"
     }
   },
   "homepage": {
@@ -252,6 +286,96 @@
     },
     "sidebar": {
       "featured_products": "विशेष उत्पाद"
+    }
+  },
+  "cart": {
+    "general": {
+      "remove": "हटाएँ",
+      "note": "विक्रेता के लिए विशेष निर्देश",
+      "taxes_and_shipping_at_checkout": "टैक्स और शिपिंग का हिसाब चेकआउट के समय लगाया जाएगा",
+      "taxes_and_shipping_policy_at_checkout_html": "टैक्स और <a href=\"&lt;span%20class='notranslate'&gt;{{%20link%20}}&lt;/span&gt;\">शिपिंग</a> का हिसाब चेकआउट के समय लगाया जाएगा",
+      "taxes_included_but_shipping_at_checkout": "कर शामिल है और शिपिंग की गणना चेकआउट पर की जाएगी",
+      "taxes_included_and_shipping_policy_html": "कर शामिल। <a href=\"&lt;span%20class='notranslate'&gt;{{%20link%20}}&lt;/span&gt;\">शिपिंग</a> चेकआउट पर कैलकुलेट की जाएगी।",
+      "update": "कार्ट अपडेट करें",
+      "view": "कार्ट देखें",
+      "and_more": "और अधिक",
+      "checkout": "देखिए",
+      "note_title": "ऑर्डर संबंधी नोट",
+      "note_label": "आदेश नोट जोड़ें",
+      "save": "सहेजें",
+      "close": "बंद करें",
+      "empty": "कार्ट में कोई उत्पाद नहीं हैं।",
+      "empty_button": "हमारे उत्पाद खरीदें",
+      "cookies_required": "शॉपिंग कार्ट इस्तेमाल करने के लिए कुकीज़ सक्षम करें",
+      "continue_browsing": "खरीदारी जारी रखें",
+      "close_notification": "बंद करें",
+      "savings_html": "आप {{ price }} बचा रहे हैं",
+      "accept": "हम स्वीकार करते हैं",
+      "total": "कुल",
+      "coupon_title": "कूपन",
+      "calc_title": "शिपिंग"
+    },
+    "gift": {
+      "title": "उपहार",
+      "description": "क्या आप उपहार लपेटना चाहते हैं? केवल",
+      "save": "गिफ्ट रैपिंग जोड़ें",
+      "close": "बंद करें"
+    },
+    "label": {
+      "product": "उत्पाद",
+      "quantity": "मात्रा",
+      "decrease_quantity": "आइटम की मात्रा एक कम करें",
+      "increase_quantity": "आइटम की मात्रा एक से बढ़ाएँ",
+      "total": "कुल"
+    }
+  },
+  "collections": {
+    "general": {
+      "view_all": "सभी देखें",
+      "all_of_collection": "सभी",
+      "no_matches": "क्षमा करें, इस संग्रह में कोई उत्पाद नहीं हैं",
+      "grid_view": "ग्रिड दृश्य",
+      "list_view": "सूची दृश्य",
+      "filter": "फ़िल्टर करें",
+      "link_title": "हमारे {{ title }} संग्रह को ब्राउज़ करें",
+      "item": "मद",
+      "items": "वस्तुएं"
+    },
+    "sorting": {
+      "title": "के अनुसार क्रमबद्ध करें",
+      "title_tags": "इसके अनुसार फ़िल्टर करें",
+      "all_of_collection": "सभी",
+      "featured": "सुविधाएँ",
+      "best_selling": "सबसे ज़्यादा बिकने वाला",
+      "az": "वर्णक्रमानुसार, ए-जेड",
+      "za": "वर्णमाला के अनुसार, Z-A",
+      "price_ascending": "मूल्य, कम से अधिक",
+      "price_descending": "कीमत, ज़्यादा से कम",
+      "date_descending": "दिनांक, नया से पुराना",
+      "date_ascending": "दिनांक, पुराने से नए की ओर"
+    }
+  },
+  "contact": {
+    "product": {
+      "ask_question": "विशेषज्ञ से पूछें",
+      "title_question": "प्रश्न हैं?",
+      "des_question": "कैडिएंट के बारे में कुछ भी पूछें"
+    },
+    "form": {
+      "name": "नाम",
+      "email": "ईमेल",
+      "phone": "फ़ोन नंबर",
+      "job": "नौकरी",
+      "story": "कहानी",
+      "message": "संदेश",
+      "send": "प्रश्न भेजें",
+      "question": "प्रश्न",
+      "send_message": "मैसेज भेजें",
+      "send_question": "प्रश्न भेजें",
+      "receive_info": "ईमेल प्राप्त करें",
+      "post_success": "हमसे संपर्क करने के लिए धन्यवाद। हम आपसे जल्द से जल्द संपर्क करेंगे।",
+      "post_error": "कृपया निम्न को समायोजित करें",
+      "question_success": "आपके प्रश्न के लिए धन्यवाद। हम यथाशीघ्र आपसे संपर्क करेंगे।"
     }
   }
 }
