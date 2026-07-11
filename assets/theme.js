@@ -1280,6 +1280,7 @@ window.QtySelector = (function() {
   custom success and error responses.
 */
 window.AjaxCart = (function() {
+  var styleCart = $('.js-mini-cart').attr("data-cartmini");
   var cart = function($form) {
     this.cache = {
       $cartIconIndicator: $('.site-header__cart-indicator')
@@ -1324,7 +1325,6 @@ window.AjaxCart = (function() {
   };
   
   cart.prototype.success = function(item) {
-    var styleCart = $('.js-mini-cart').attr("data-cartmini");
     theme.miniCart.updateElements();
     theme.miniCart.generateCart();
     if(styleCart != 'true' ){
@@ -4375,6 +4375,7 @@ theme.openAddon = (function(){
 // MiniCart
 theme.miniCart = (function(){
   var miniCart = '.js-mini-cart',
+      styleCart = $(miniCart).attr("data-cartmini"),
       cartToggle = '.js-toggle-cart',
       cartCount = '.js-cart-count',
       cartContent = '.js-mini-cart-content',
@@ -4389,7 +4390,6 @@ theme.miniCart = (function(){
 
 
   function updateElements(){
-    var styleCart = $(miniCart).attr("data-cartmini");
     Shopify.getCart(function(cart){
       if (cart.item_count === 0) {
         $(cartContent).html(emptyCartHTML);
