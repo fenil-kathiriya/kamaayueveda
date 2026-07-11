@@ -1280,7 +1280,6 @@ window.QtySelector = (function() {
   custom success and error responses.
 */
 window.AjaxCart = (function() {
-  var styleCart = $('.js-mini-cart').attr("data-cartmini");
   var cart = function($form) {
     this.cache = {
       $cartIconIndicator: $('.site-header__cart-indicator')
@@ -1325,19 +1324,17 @@ window.AjaxCart = (function() {
   };
   
   cart.prototype.success = function(item) {
+    var styleCart = $('.js-mini-cart').attr("data-cartmini");
     theme.miniCart.updateElements();
     theme.miniCart.generateCart();
-    // Always open mini cart drawer on Add to Cart
-    var $miniCart = $('.js-mini-cart');
-    var currentStyleCart = $miniCart.attr('data-cartmini');
-    if(currentStyleCart === 'true'){
-      // Cart drawer mode: open the drawer immediately
-      $miniCart.addClass('active');
-      $('body').addClass('overflow-hidden');
-    } else {
-      // Fallback: trigger the toggle click to open mini cart
-      $miniCart.addClass('active');
-      $('body').addClass('overflow-hidden');
+    if(styleCart != 'true' ){
+      if (this.showNotice) {
+        var htmlVariant = item.variant_title !== null ? '<i>('+item.variant_title+')</i>' : '';
+        var htmlAlert = '<div class="media mt-2 alert--cart"><a class="mr-3" href="/cart"><img class="lazyload" data-src="'+item.image+'"></a><div class="media-body align-self-center"><p class="m-0 font-weight-bold">'+item.product_title+' x '+ item.quantity +'</p>'+htmlVariant+'<div><div>';
+        theme.alert.new(theme.strings.addToCartSuccess,htmlAlert,3000,'notice');
+      }else{
+        theme.crosssell.showPopup(item);
+      }
     }
   };
 
@@ -4378,7 +4375,6 @@ theme.openAddon = (function(){
 // MiniCart
 theme.miniCart = (function(){
   var miniCart = '.js-mini-cart',
-      styleCart = $(miniCart).attr("data-cartmini"),
       cartToggle = '.js-toggle-cart',
       cartCount = '.js-cart-count',
       cartContent = '.js-mini-cart-content',
@@ -4393,6 +4389,7 @@ theme.miniCart = (function(){
 
 
   function updateElements(){
+    var styleCart = $(miniCart).attr("data-cartmini");
     Shopify.getCart(function(cart){
       if (cart.item_count === 0) {
         $(cartContent).html(emptyCartHTML);
