@@ -261,7 +261,7 @@
         "enable_creative": false,
         "padding": true,
         "enable_title_grid": false,
-        "colgrid": "col-lg-6",
+        "colgrid": "col-lg-4",
         "rows": 7,
         "txtbutton": "show all",
         "urlbtn": "",
