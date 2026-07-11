@@ -1327,18 +1327,17 @@ window.AjaxCart = (function() {
   cart.prototype.success = function(item) {
     theme.miniCart.updateElements();
     theme.miniCart.generateCart();
-    if(styleCart === 'true' ){
-      // Open mini cart drawer immediately on add to cart
-      $('.js-mini-cart').addClass('active');
+    // Always open mini cart drawer on Add to Cart
+    var $miniCart = $('.js-mini-cart');
+    var currentStyleCart = $miniCart.attr('data-cartmini');
+    if(currentStyleCart === 'true'){
+      // Cart drawer mode: open the drawer immediately
+      $miniCart.addClass('active');
       $('body').addClass('overflow-hidden');
     } else {
-      if (this.showNotice) {
-        var htmlVariant = item.variant_title !== null ? '<i>('+item.variant_title+')</i>' : '';
-        var htmlAlert = '<div class="media mt-2 alert--cart"><a class="mr-3" href="/cart"><img class="lazyload" data-src="'+item.image+'"></a><div class="media-body align-self-center"><p class="m-0 font-weight-bold">'+item.product_title+' x '+ item.quantity +'</p>'+htmlVariant+'<div><div>';
-        theme.alert.new(theme.strings.addToCartSuccess,htmlAlert,3000,'notice');
-      }else{
-        theme.crosssell.showPopup(item);
-      }
+      // Fallback: trigger the toggle click to open mini cart
+      $miniCart.addClass('active');
+      $('body').addClass('overflow-hidden');
     }
   };
 
