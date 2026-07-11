@@ -262,7 +262,7 @@
         "padding": true,
         "enable_title_grid": false,
         "colgrid": "col-lg-6",
-        "rows": 1,
+        "rows": 7,
         "txtbutton": "show all",
         "urlbtn": "",
         "style_btn": "btn-underline btn-underline-white",
