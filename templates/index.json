@@ -246,6 +246,43 @@
         "discount_badge_text": "Combo Offer – Extra {discount} off"
       }
     },
+    "frequently_buy_section_MMeyew": {
+      "type": "frequently-buy-section",
+      "blocks": {
+        "product_PG4HC8": {
+          "type": "product",
+          "settings": {
+            "product": "fire-bolt-kama-vati-gold-100-ayurvedic-herbal-wellness-tablets-premium-mens-vitality-supplement-45-gold-vati"
+          }
+        },
+        "product_NwPYV6": {
+          "type": "product",
+          "settings": {
+            "product": "kama-vidhi"
+          }
+        },
+        "product_aytMw3": {
+          "type": "product",
+          "settings": {
+            "product": "thai-black-ginger"
+          }
+        }
+      },
+      "block_order": [
+        "product_PG4HC8",
+        "product_NwPYV6",
+        "product_aytMw3"
+      ],
+      "name": "Frequently Bought",
+      "settings": {
+        "title": "Combo Offer's",
+        "button_label": "Add selected to cart",
+        "discount_type": "percentage",
+        "discount_value": 10,
+        "require_all_items": false,
+        "discount_badge_text": "Combo Offer – Extra {discount} off"
+      }
+    },
     "featured_products_weXayk": {
       "type": "featured-products",
       "name": "Product Grid",
@@ -963,6 +1000,7 @@
     "trust_badge_VhAGPK",
     "image_content_J8yzEQ",
     "frequently_buy_section_PKaCMY",
+    "frequently_buy_section_MMeyew",
     "featured_products_weXayk",
     "4c522bc8-508a-4dd3-a863-95a1b1838232",
     "b178c7b9-711f-464d-af9c-aac1f4f31179",
