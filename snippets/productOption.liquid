@@ -11,7 +11,18 @@
   {%- if  optionName contains keywords_1 or optionName contains keywords_2 -%}
   {%- assign isColor = true -%}
   {%- endif -%}
-<fieldset class="single-option-radio {% if isColor %} {% if siblings_collection != blank and enable_sibling %} d-none {% endif %} single-color {{ size_color }} {% if type_color == 'circle' %} round-color {% elsif type_color == 'square' %} square-color {% else %} square-color-txt {% endif %} {% endif %} "
+
+  {%- liquid
+    assign is_payment_options = false
+    for val in option.values
+      assign val_dc = val | downcase
+      if val_dc == 'prepaid' or val_dc == 'cod'
+        assign is_payment_options = true
+      endif
+    endfor
+  -%}
+
+<fieldset class="single-option-radio {% if isColor %} {% if siblings_collection != blank and enable_sibling %} d-none {% endif %} single-color {{ size_color }} {% if type_color == 'circle' %} round-color {% elsif type_color == 'square' %} square-color {% else %} square-color-txt {% endif %} {% endif %} {% if is_payment_options %} payment-option-fieldset {% endif %}"
           name="{{ option.name | handleize }}"
           id="ProductSelect-option-{{ optionName }}-{{ forloop.index0 }}">
   
@@ -52,7 +63,14 @@
     style="background-image:url({{ currenVariant.image.src | image_url: width: 100 }})" 
     {% endif %}{% endif %}
           for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"{% unless variant_label_state %} class="disabled"{% endunless %}>
-      {%- unless hasImage -%}{{ value | escape }}{%- endunless -%}
+      {%- unless hasImage -%}
+        {%- if is_payment_options -%}
+          <span class="option-payment-type">On {{ value }}</span>
+          <span class="option-payment-price">{{ currenVariant.price | money }}</span>
+        {%- else -%}
+          {{ value | escape }}
+        {%- endif -%}
+      {%- endunless -%}
         {% comment %} <span class="st-tooltip__content">{{ value | escape }}</span> {% endcomment %}
         {%- if hasImage -%}
         <span class="st-color-{{ value | escape | handle }} st-color"></span>
