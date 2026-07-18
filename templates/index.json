@@ -222,6 +222,7 @@
         "badge_FN66Aa",
         "badge_gpCGat"
       ],
+      "disabled": true,
       "name": "Trust Badges",
       "settings": {
         "animation": "",
