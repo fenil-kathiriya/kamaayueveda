@@ -613,15 +613,23 @@
   .product-form__item--quantity .js-qty__adjust:hover {
     background-color: #f3f4f6 !important;
   }
-  .product-form__item--quantity .js-qty__adjust svg {
-    display: none !important; /* Hide caret SVGs */
-  }
+  .product-form__item--quantity .js-qty__adjust svg,
   .product-form__item--quantity .js-qty__adjust .icon__fallback-text {
-    display: block !important;
+    display: none !important; /* Hide SVGs and theme fallback texts */
+  }
+  .product-form__item--quantity .js-qty__adjust--minus::before {
+    content: "−" !important;
     font-size: 18px !important;
-    color: #4b5563 !important;
-    font-weight: 400 !important;
-    line-height: 1 !important;
+    color: #000000 !important;
+    font-weight: 600 !important;
+    display: block !important;
+  }
+  .product-form__item--quantity .js-qty__adjust--plus::before {
+    content: "+" !important;
+    font-size: 18px !important;
+    color: #000000 !important;
+    font-weight: 600 !important;
+    display: block !important;
   }
 
   /* 3. CTA Stacked Buttons Layout */
