@@ -43,19 +43,6 @@
         "sort": "alphabetical"
       }
     },
-    "16634028377c76965e": {
-      "type": "line",
-      "disabled": true,
-      "settings": {
-        "animation": "fade",
-        "paddingsection": "0px 0px 0px 0px",
-        "marginsection": "0px 0px 0px 0px",
-        "bgsection": "#ffffff",
-        "setwidth": "container",
-        "bgborder": "#dddddd",
-        "wborder": "1px"
-      }
-    },
     "166340581364695c71": {
       "type": "product-list-swiper",
       "disabled": true,
@@ -157,6 +144,18 @@
         "marginmobile": "0px 0px 0px 0px"
       }
     },
+    "16634028377c76965e": {
+      "type": "line",
+      "settings": {
+        "animation": "fade",
+        "paddingsection": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "bgsection": "#ffffff",
+        "setwidth": "container",
+        "bgborder": "#FFFFFF",
+        "wborder": "50px"
+      }
+    },
     "featured_products_TBQdVx": {
       "type": "featured-products",
       "name": "Product Grid",
@@ -164,8 +163,8 @@
         "animation": "",
         "setwidth": "container",
         "bgsection": "#ffffff",
-        "title_top": "Sub Title Top",
-        "title": "Product list",
+        "title_top": "",
+        "title": "",
         "des": "",
         "align-heading": "center",
         "collection": "kamas-top-selling",
@@ -186,9 +185,9 @@
   },
   "order": [
     "main",
-    "16634028377c76965e",
     "166340581364695c71",
     "product_with_image_648hzC",
+    "16634028377c76965e",
     "featured_products_TBQdVx"
   ]
 }
