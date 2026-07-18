@@ -69,7 +69,7 @@
           "settings": {
             "enable_local_pickup": true,
             "enable_hurrify": true,
-            "enable_payment_button": true,
+            "enable_payment_button": false,
             "waitlist": true,
             "enable_question": true,
             "enable_sibling": true,
