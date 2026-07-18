@@ -83,6 +83,19 @@
     "trust_badge_VhAGPK": {
       "type": "trust-badge",
       "blocks": {
+        "badge_9KEbHY": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "image",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "image_icon": "shopify://shop_images/kesar.webp",
+            "svg_icon": "",
+            "title": "Kesar",
+            "subtitle": "",
+            "description": ""
+          }
+        },
         "badge_Dz8TjJ": {
           "type": "badge",
           "settings": {
@@ -137,6 +150,7 @@
         }
       },
       "block_order": [
+        "badge_9KEbHY",
         "badge_Dz8TjJ",
         "badge_VNPYmc",
         "badge_b3NrH9",
