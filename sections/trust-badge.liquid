@@ -175,7 +175,10 @@
       </div>
     {%- endif -%}
 
-    <div class="trust-badges-grid{% if section.settings.enable_scroll_mobile %} scroll-mobile{% endif %}{% if section.settings.enable_scroll_desktop %} scroll-desktop{% endif %}">
+    <div class="trust-badges-grid{% if section.settings.enable_scroll_mobile %} scroll-mobile{% endif %}{% if section.settings.enable_scroll_desktop %} scroll-desktop{% endif %}{% if section.settings.enable_autoscroll %} autoscroll-active{% endif %}"
+         id="trust-grid-{{ section.id }}"
+         data-autoscroll="{{ section.settings.enable_autoscroll }}"
+         data-speed="{{ section.settings.autoscroll_speed }}">
       {%- for block in section.blocks -%}
         {%- liquid
           assign icon_emoji = ''
@@ -228,6 +231,62 @@
 
   </div>
 </div>
+
+<script>
+(function() {
+  var grid = document.getElementById('trust-grid-{{ section.id }}');
+  if (!grid) return;
+  var enabled = grid.getAttribute('data-autoscroll') === 'true';
+  if (!enabled) return;
+
+  var speed = parseFloat(grid.getAttribute('data-speed')) || 0.5;
+  var cloned = false;
+  var animId;
+  var paused = false;
+
+  function cloneItems() {
+    var items = Array.from(grid.querySelectorAll('.trust-badge-card-wrapper'));
+    items.forEach(function(item) {
+      var clone = item.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.classList.add('cloned-badge');
+      grid.appendChild(clone);
+    });
+    cloned = true;
+  }
+
+  function startScroll() {
+    if (!cloned) cloneItems();
+    var scrollPos = grid.scrollLeft;
+    var originalWidth = grid.scrollWidth / 2;
+
+    function step() {
+      if (!paused) {
+        scrollPos += speed;
+        if (scrollPos >= originalWidth) {
+          scrollPos = 0;
+        }
+        grid.scrollLeft = scrollPos;
+      }
+      animId = requestAnimationFrame(step);
+    }
+    animId = requestAnimationFrame(step);
+  }
+
+  grid.addEventListener('mouseenter', function() { paused = true; });
+  grid.addEventListener('mouseleave', function() { paused = false; });
+  grid.addEventListener('touchstart', function() { paused = true; }, { passive: true });
+  grid.addEventListener('touchend', function() {
+    setTimeout(function() { paused = false; }, 1500);
+  }, { passive: true });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startScroll);
+  } else {
+    startScroll();
+  }
+})();
+</script>
 
 {% schema %}
 {
@@ -307,7 +366,23 @@
       "type": "checkbox",
       "id": "enable_scroll_desktop",
       "label": "Enable Horizontal Scroll on Desktop",
-      "default": false
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoscroll",
+      "label": "Enable Auto Scroll",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoscroll_speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Auto Scroll Speed",
+      "default": 2,
+      "info": "1 = slowest, 10 = fastest. Pauses on hover/touch."
     },
     { "type": "header", "content": "Card Style" },
     { "type": "color", "id": "card_bg", "label": "Card Background", "default": "#f5f5f4" },
