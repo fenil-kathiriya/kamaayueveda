@@ -54,12 +54,14 @@
                 {%- assign rk_i = rk_i | plus: 1 -%}
                 {%- assign v = p.selected_or_first_available_variant -%}
 
+                {%- if rk_i > 1 -%}<span class="rk-fbt__plus" aria-hidden="true">+</span>{%- endif -%}
+
                 <div
-                  class="rk-fbt__card rk-fbt__capsule"
+                  class="rk-fbt__card"
                   data-rk-fbt-card
                   {{ block.shopify_attributes }}
                 >
-                  <label class="rk-fbt__check-label">
+                  <label class="rk-fbt__imagewrap">
                     <input
                       type="checkbox"
                       class="rk-fbt__checkbox"
@@ -67,56 +69,50 @@
                       {% if v.available == false %}disabled{% else %}checked{% endif %}
                     >
                     <span class="rk-fbt__check" aria-hidden="true"></span>
-                  </label>
-
-                  {%- if p.featured_image != blank -%}
-                    <div class="rk-fbt__avatar">
+                    {%- if p.featured_image != blank -%}
                       <img
-                        src="{{ p.featured_image | image_url: width: 120 }}"
-                        alt="{{ p.title }}"
+                        class="rk-fbt__img"
+                        src="{{ p.featured_image | image_url: width: 300 }}"
+                        width="300"
+                        height="300"
+                        alt="{{ p.featured_image.alt | escape | default: p.title }}"
                         loading="lazy"
                       >
-                    </div>
-                  {%- else -%}
-                    <div class="rk-fbt__avatar rk-fbt__avatar--placeholder">
-                      {{ 'image' | placeholder_svg_tag: 'rk-placeholder' }}
-                    </div>
-                  {%- endif -%}
-
-                  <div class="rk-fbt__card-info">
-                    <p class="rk-fbt__name">{{ p.title }}</p>
-
-                    <p class="rk-fbt__price">
-                      {%- if v.compare_at_price > v.price -%}
-                        <span class="rk-fbt__compare">{{ v.compare_at_price | money }}</span>
-                      {%- endif -%}
-                      <span class="rk-fbt__current">{{ v.price | money }}</span>
-                    </p>
-
-                    {%- unless v.available -%}
-                      <span class="rk-pill rk-pill--soldout rk-fbt__soldout">Sold out</span>
-                    {%- endunless -%}
-                  </div>
-
-                  <div class="rk-fbt__card-action">
-                    {%- if p.has_only_default_variant -%}
-                      <input type="hidden" data-rk-fbt-variant-id value="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price }}">
                     {%- else -%}
-                      <select class="rk-fbt__select" data-rk-fbt-variant-select>
-                        {%- for variant in p.variants -%}
-                          <option
-                            value="{{ variant.id }}"
-                            data-price="{{ variant.price }}"
-                            data-compare="{{ variant.compare_at_price }}"
-                            {% if variant == v %}selected{% endif %}
-                            {% unless variant.available %}disabled{% endunless %}
-                          >
-                            {{ variant.title }}{% unless variant.available %} — Sold out{% endunless %}
-                          </option>
-                        {%- endfor -%}
-                      </select>
+                      <span class="rk-fbt__img rk-fbt__img--placeholder">{{ 'image' | placeholder_svg_tag: 'rk-placeholder' }}</span>
                     {%- endif -%}
-                  </div>
+                  </label>
+
+                  <p class="rk-fbt__name">{{ p.title }}</p>
+
+                  <p class="rk-fbt__price">
+                    {%- if v.compare_at_price > v.price -%}
+                      <span class="rk-fbt__compare">{{ v.compare_at_price | money }}</span>
+                    {%- endif -%}
+                    <span class="rk-fbt__current">{{ v.price | money }}</span>
+                  </p>
+
+                  {%- unless v.available -%}
+                    <span class="rk-pill rk-pill--soldout rk-fbt__soldout">Sold out</span>
+                  {%- endunless -%}
+
+                  {%- if p.has_only_default_variant -%}
+                    <input type="hidden" data-rk-fbt-variant-id value="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price }}">
+                  {%- else -%}
+                    <select class="rk-fbt__select" data-rk-fbt-variant-select>
+                      {%- for variant in p.variants -%}
+                        <option
+                          value="{{ variant.id }}"
+                          data-price="{{ variant.price }}"
+                          data-compare="{{ variant.compare_at_price }}"
+                          {% if variant == v %}selected{% endif %}
+                          {% unless variant.available %}disabled{% endunless %}
+                        >
+                          {{ variant.title }}{% unless variant.available %} — Sold out{% endunless %}
+                        </option>
+                      {%- endfor -%}
+                    </select>
+                  {%- endif -%}
                 </div>
               {%- endif -%}
             {%- endif -%}
@@ -198,83 +194,82 @@
     align-items: start;
   }
 
-  /* ---- Formula Chain Items ---- */
+  /* ---- Item row ---- */
   #rk-fbt-{{ section.id }} .rk-fbt__items {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__plus {
+    align-self: center;
+    font-family: var(--rk-font-display);
+    font-size: 22px;
+    color: var(--rk-ink-soft);
+    margin-top: 60px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__card {
+    width: 160px;
+    flex: 0 0 160px;
+    transition: opacity 0.15s ease;
+  }
+
+  /* Fewer products in the bundle = bigger cards, no leftover empty space */
+  #rk-fbt-{{ section.id }}[data-count="1"] .rk-fbt__card {
+    width: 240px;
+    flex: 0 0 240px;
+  }
+
+  #rk-fbt-{{ section.id }}[data-count="2"] .rk-fbt__card {
+    width: 200px;
+    flex: 0 0 200px;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__card:has(.rk-fbt__checkbox:not(:checked)) {
+    opacity: 0.45;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__imagewrap {
     position: relative;
+    display: block;
     width: 100%;
-    gap: 20px;
-    padding: 10px 0;
-  }
-
-  /* Connecting vertical line */
-  #rk-fbt-{{ section.id }} .rk-fbt__items::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 78px; /* Aligned behind the avatar center */
-    width: 2px;
-    background: repeating-linear-gradient(
-      to bottom,
-      var(--rk-line),
-      var(--rk-line) 6px,
-      transparent 6px,
-      transparent 12px
-    );
-    z-index: 1;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__capsule {
-    display: flex !important;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
     background: var(--rk-card-bg);
-    border: 1.5px solid var(--rk-line);
-    border-radius: 999px; /* Pill shape */
-    padding: 8px 24px 8px 16px;
-    position: relative;
-    z-index: 2;
-    gap: 16px;
-    box-shadow: 0 4px 12px rgba(59, 36, 21, 0.04);
-    transition: all 0.3s ease;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__capsule:hover {
-    border-color: var(--rk-gold);
-    box-shadow: 0 6px 16px rgba(59, 36, 21, 0.08);
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__capsule:has(.rk-fbt__checkbox:not(:checked)) {
-    opacity: 0.55;
-    border-color: var(--rk-line);
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__check-label {
-    display: flex;
-    align-items: center;
+    border: 1px solid var(--rk-line);
     cursor: pointer;
-    margin: 0;
+    margin-bottom: 10px;
   }
 
-  #rk-fbt-{{ section.id }} .rk-fbt__check {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid var(--rk-brown);
-    background: #fff;
-    position: relative;
-    transition: all 0.2s ease;
+  #rk-fbt-{{ section.id }} .rk-fbt__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__img--placeholder svg { width: 100%; height: 100%; }
 
   #rk-fbt-{{ section.id }} .rk-fbt__checkbox {
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__check {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1.5px solid var(--rk-brown);
+    background: #fff;
+    z-index: 2;
   }
 
   #rk-fbt-{{ section.id }} .rk-fbt__checkbox:checked + .rk-fbt__check {
@@ -285,8 +280,8 @@
   #rk-fbt-{{ section.id }} .rk-fbt__checkbox:checked + .rk-fbt__check::after {
     content: "";
     position: absolute;
-    left: 7px;
-    top: 3px;
+    left: 6px;
+    top: 2px;
     width: 5px;
     height: 10px;
     border: solid #fff;
@@ -298,50 +293,20 @@
     opacity: 0.4;
   }
 
-  #rk-fbt-{{ section.id }} .rk-fbt__avatar {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid var(--rk-line);
-    background: #fff;
-    flex-shrink: 0;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__avatar--placeholder svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__card-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
   #rk-fbt-{{ section.id }} .rk-fbt__name {
-    font-size: 15px;
-    font-weight: 600;
-    margin: 0 0 2px;
-    color: var(--rk-brown);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 0 0 6px;
+    color: var(--rk-ink);
   }
 
   #rk-fbt-{{ section.id }} .rk-fbt__price {
-    margin: 0;
-    font-size: 13px;
+    margin: 0 0 8px;
+    font-size: 14px;
     display: flex;
     gap: 8px;
-    align-items: center;
+    flex-wrap: wrap;
   }
 
   #rk-fbt-{{ section.id }} .rk-fbt__compare {
@@ -349,9 +314,7 @@
     color: var(--rk-ink-soft);
   }
 
-  #rk-fbt-{{ section.id }} .rk-fbt__current {
-    font-weight: 600;
-  }
+  #rk-fbt-{{ section.id }} .rk-fbt__current { font-weight: 600; }
 
   #rk-fbt-{{ section.id }} .rk-pill--soldout {
     display: inline-block;
@@ -359,35 +322,21 @@
     color: #FBEFE8;
     font-size: 11px;
     font-weight: 600;
-    padding: 2px 8px;
+    padding: 4px 10px;
     border-radius: 999px;
-    margin-top: 4px;
-    width: max-content;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__card-action {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+    margin-bottom: 8px;
   }
 
   #rk-fbt-{{ section.id }} .rk-fbt__select {
-    height: 36px;
-    border: 1.5px solid var(--rk-line);
-    border-radius: 999px; /* Pill selector */
-    padding: 0 16px;
+    width: 100%;
+    height: 38px;
+    border: 1.5px solid var(--rk-brown);
+    border-radius: 6px;
+    padding: 0 10px;
+    font-family: var(--rk-font-body);
     font-size: 13px;
-    color: var(--rk-brown);
+    color: var(--rk-ink);
     background: #fff;
-    cursor: pointer;
-    min-width: 120px;
-    max-width: 160px;
-    outline: none;
-    transition: border-color 0.2s ease;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__select:hover {
-    border-color: var(--rk-brown);
   }
 
   /* ---- Summary panel ---- */
@@ -490,235 +439,12 @@
     min-height: 16px;
   }
 
-  /* ---- Formula Chain Items ---- */
-  #rk-fbt-{{ section.id }} .rk-fbt__items {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    gap: 20px;
-    padding: 10px 0;
-  }
-
-  /* Connecting vertical line */
-  #rk-fbt-{{ section.id }} .rk-fbt__items::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 27px; /* Aligned behind the checkbox center */
-    width: 2px;
-    background: repeating-linear-gradient(
-      to bottom,
-      var(--rk-line),
-      var(--rk-line) 6px,
-      transparent 6px,
-      transparent 12px
-    );
-    z-index: 1;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__capsule {
-    display: flex !important;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    background: var(--rk-card-bg);
-    border: 1.5px solid var(--rk-line);
-    border-radius: 999px; /* Pill shape */
-    padding: 8px 24px 8px 16px;
-    position: relative;
-    z-index: 2;
-    gap: 16px;
-    box-shadow: 0 4px 12px rgba(59, 36, 21, 0.04);
-    transition: all 0.3s ease;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__capsule:hover {
-    border-color: var(--rk-gold);
-    box-shadow: 0 6px 16px rgba(59, 36, 21, 0.08);
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__capsule:has(.rk-fbt__checkbox:not(:checked)) {
-    opacity: 0.55;
-    border-color: var(--rk-line);
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__check-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    margin: 0;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__check {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid var(--rk-brown);
-    background: #fff;
-    position: relative;
-    transition: all 0.2s ease;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__checkbox {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__checkbox:checked + .rk-fbt__check {
-    background: var(--rk-green);
-    border-color: var(--rk-green);
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__checkbox:checked + .rk-fbt__check::after {
-    content: "";
-    position: absolute;
-    left: 7px;
-    top: 3px;
-    width: 5px;
-    height: 10px;
-    border: solid #fff;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__checkbox:disabled + .rk-fbt__check {
-    opacity: 0.4;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__avatar {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid var(--rk-line);
-    background: #fff;
-    flex-shrink: 0;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__avatar--placeholder svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__card-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__name {
-    font-size: 15px;
-    font-weight: 600;
-    margin: 0 0 2px;
-    color: var(--rk-brown);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__price {
-    margin: 0;
-    font-size: 13px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__compare {
-    text-decoration: line-through;
-    color: var(--rk-ink-soft);
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__current {
-    font-weight: 600;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-pill--soldout {
-    display: inline-block;
-    background: var(--rk-red);
-    color: #FBEFE8;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 999px;
-    margin-top: 4px;
-    width: max-content;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__card-action {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__select {
-    height: 36px;
-    border: 1.5px solid var(--rk-line);
-    border-radius: 999px; /* Pill selector */
-    padding: 0 16px;
-    font-size: 13px;
-    color: var(--rk-brown);
-    background: #fff;
-    cursor: pointer;
-    min-width: 120px;
-    max-width: 160px;
-    outline: none;
-    transition: border-color 0.2s ease;
-  }
-
-  #rk-fbt-{{ section.id }} .rk-fbt__select:hover {
-    border-color: var(--rk-brown);
-  }
-
   @media (max-width: 860px) {
     #rk-fbt-{{ section.id }} .rk-fbt__layout {
       grid-template-columns: 1fr;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__summary {
       position: static;
-    }
-  }
-
-  @media (max-width: 767px) {
-    #rk-fbt-{{ section.id }} {
-      padding: 32px 16px;
-    }
-    #rk-fbt-{{ section.id }} .rk-fbt__summary {
-      padding: 20px;
-    }
-    #rk-fbt-{{ section.id }} .rk-fbt__items::before {
-      left: 23px; /* Positioned behind the check-mark center on mobile */
-    }
-    #rk-fbt-{{ section.id }} .rk-fbt__capsule {
-      padding: 8px 16px 8px 12px;
-      gap: 12px;
-      border-radius: 20px; /* Slightly less rounded on mobile to save space */
-    }
-    #rk-fbt-{{ section.id }} .rk-fbt__avatar {
-      width: 44px;
-      height: 44px;
-    }
-    #rk-fbt-{{ section.id }} .rk-fbt__name {
-      font-size: 13px;
-    }
-    #rk-fbt-{{ section.id }} .rk-fbt__select {
-      min-width: 90px;
-      max-width: 120px;
-      font-size: 12px;
-      padding: 0 10px;
-      height: 34px;
     }
   }
 
