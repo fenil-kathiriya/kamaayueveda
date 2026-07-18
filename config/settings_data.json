@@ -509,7 +509,8 @@
             "settings": {
               "enable_video": false,
               "video_hosted": "",
-              "image": "shopify://shop_images/ChatGPT_Image_Jul_11_2026_04_32_41_PM.png",
+              "image": "shopify://shop_images/ChatGPT_Image_Jul_18_2026_04_17_12_PM.png",
+              "image_mobile": "shopify://shop_images/ChatGPT_Image_Jul_18_2026_04_18_43_PM.png",
               "alignment": "center center",
               "text_alignment": "center bottom",
               "bgwrap": "#a29f9a",
