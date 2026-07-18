@@ -386,6 +386,31 @@
         "marginmobile": "0px 0px 0px 0px"
       }
     },
+    "product_list_Ubhy8z": {
+      "type": "product-list",
+      "name": "Product list (carousel)",
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "title_top": "More savings",
+        "title": "Combo Offer's",
+        "des": "",
+        "align-heading": "center",
+        "collection": "combos",
+        "arrows": true,
+        "draggable": true,
+        "dots": true,
+        "infinite": true,
+        "rows": "1",
+        "limit": 10,
+        "show": 3,
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "40px 0px 40px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
     "product_with_image_cTdREn": {
       "type": "product-with-image",
       "blocks": {
@@ -422,6 +447,7 @@
         "banner_a9wfFN",
         "product_p3BaCU"
       ],
+      "disabled": true,
       "name": "Product grid Image",
       "settings": {
         "animation": "",
@@ -431,7 +457,7 @@
         "title": "Combo Offer's",
         "des": "",
         "align-heading": "center",
-        "enable_reverse": false,
+        "enable_reverse": true,
         "width_banner": 50,
         "paddingsection": "0px 0px 0px 0px",
         "paddingmobile": "40px 0px 40px 0px",
@@ -466,6 +492,7 @@
         "product_eDfyrB",
         "product_dtcFxV"
       ],
+      "disabled": true,
       "name": "Frequently Bought",
       "settings": {
         "title": "Combo Offer's",
@@ -503,6 +530,7 @@
         "product_NwPYV6",
         "product_aytMw3"
       ],
+      "disabled": true,
       "name": "Frequently Bought",
       "settings": {
         "title": "Combo Offer's",
@@ -1230,6 +1258,7 @@
     "trust_badge_VhAGPK",
     "trust_badge_w6FHzw",
     "image_content_J8yzEQ",
+    "product_list_Ubhy8z",
     "product_with_image_cTdREn",
     "frequently_buy_section_PKaCMY",
     "frequently_buy_section_MMeyew",
