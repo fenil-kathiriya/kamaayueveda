@@ -133,7 +133,7 @@
                   {{ block.settings.custom_emoji | default: '⭐' }}
                 {%- when 'image' -%}
                   {%- if block.settings.image_icon != blank -%}
-                    {{ block.settings.image_icon | image_url: width: 200 | image_tag: loading: 'lazy' }}
+                    {{ block.settings.image_icon | image_url: width: 400 | image_tag: loading: 'lazy' }}
                   {%- else -%}
                     {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
                   {%- endif -%}
@@ -249,11 +249,11 @@
       "type": "range",
       "id": "size",
       "min": 20,
-      "max": 100,
-      "step": 1,
+      "max": 200,
+      "step": 2,
       "unit": "px",
       "label": "Icon Size",
-      "default": 44
+      "default": 80
     },
     { "type": "color", "id": "titlecolor", "label": "Title Color", "default": "#3f6b3f" },
     { "type": "color", "id": "subtitlecolor", "label": "Subtitle Color", "default": "#3f6b3f" },
