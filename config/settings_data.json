@@ -586,7 +586,7 @@
         "settings": {
           "enable_slideshow": true,
           "setwidthout": "container-fluid",
-          "slideshow_height_adapt": "550",
+          "slideshow_height_adapt": "650",
           "slideshow_height_mobile": "500",
           "setwidth": "container-fluid",
           "slideshow_mobile": true,
