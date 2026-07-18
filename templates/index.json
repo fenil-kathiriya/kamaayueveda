@@ -83,6 +83,45 @@
     "trust_badge_VhAGPK": {
       "type": "trust-badge",
       "blocks": {
+        "badge_Dz8TjJ": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "image",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "image_icon": "shopify://shop_images/salam_mishri.avif",
+            "svg_icon": "",
+            "title": "Salam Mishri",
+            "subtitle": "",
+            "description": ""
+          }
+        },
+        "badge_VNPYmc": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "image",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "image_icon": "shopify://shop_images/kharateen.avif",
+            "svg_icon": "",
+            "title": "Kharateen",
+            "subtitle": "",
+            "description": ""
+          }
+        },
+        "badge_b3NrH9": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "image",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "image_icon": "shopify://shop_images/beej_bidhara.avif",
+            "svg_icon": "",
+            "title": "Beej Bidhara",
+            "subtitle": "",
+            "description": ""
+          }
+        },
         "badge_Ga3Nni": {
           "type": "badge",
           "settings": {
@@ -95,49 +134,13 @@
             "subtitle": "",
             "description": ""
           }
-        },
-        "badge_9GtzJi": {
-          "type": "badge",
-          "settings": {
-            "icon_type": "preset",
-            "icon_select": "shield",
-            "custom_emoji": "",
-            "svg_icon": "",
-            "title": "QUALITY ASSURED",
-            "subtitle": "AYUSH & GMP Certified",
-            "description": "<p>Manufactured in AYUSH-approved and GMP-certified facilities under strict quality standards to ensure purity, safety, and consistency.</p>"
-          }
-        },
-        "badge_ETXhMx": {
-          "type": "badge",
-          "settings": {
-            "icon_type": "preset",
-            "icon_select": "test-tube",
-            "custom_emoji": "",
-            "svg_icon": "",
-            "title": "LAB TESTED",
-            "subtitle": "Purity & Safety Verified",
-            "description": "<p>Every batch undergoes rigorous quality testing to ensure high purity, potency, and compliance with industry standards.</p>"
-          }
-        },
-        "badge_GMhgUk": {
-          "type": "badge",
-          "settings": {
-            "icon_type": "preset",
-            "icon_select": "star",
-            "custom_emoji": "",
-            "svg_icon": "",
-            "title": "TRUSTED BY THOUSANDS",
-            "subtitle": "4.8/5 Customer Rating",
-            "description": "<p>Trusted by thousands of customers for delivering authentic Ayurvedic wellness solutions with consistent quality and reliable results.</p>"
-          }
         }
       },
       "block_order": [
-        "badge_Ga3Nni",
-        "badge_9GtzJi",
-        "badge_ETXhMx",
-        "badge_GMhgUk"
+        "badge_Dz8TjJ",
+        "badge_VNPYmc",
+        "badge_b3NrH9",
+        "badge_Ga3Nni"
       ],
       "name": "Trust Badges",
       "settings": {
@@ -153,7 +156,7 @@
         "card_gap": 24,
         "card_bg": "#f5f5f4",
         "card_radius": 16,
-        "size": 80,
+        "size": 44,
         "titlecolor": "#3f6b3f",
         "subtitlecolor": "#3f6b3f",
         "desccolor": "#444444",
