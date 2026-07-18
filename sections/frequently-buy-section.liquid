@@ -83,36 +83,38 @@
                     {%- endif -%}
                   </label>
 
-                  <p class="rk-fbt__name">{{ p.title }}</p>
+                  <div class="rk-fbt__card-info">
+                    <p class="rk-fbt__name">{{ p.title }}</p>
 
-                  <p class="rk-fbt__price">
-                    {%- if v.compare_at_price > v.price -%}
-                      <span class="rk-fbt__compare">{{ v.compare_at_price | money }}</span>
+                    <p class="rk-fbt__price">
+                      {%- if v.compare_at_price > v.price -%}
+                        <span class="rk-fbt__compare">{{ v.compare_at_price | money }}</span>
+                      {%- endif -%}
+                      <span class="rk-fbt__current">{{ v.price | money }}</span>
+                    </p>
+
+                    {%- unless v.available -%}
+                      <span class="rk-pill rk-pill--soldout rk-fbt__soldout">Sold out</span>
+                    {%- endunless -%}
+
+                    {%- if p.has_only_default_variant -%}
+                      <input type="hidden" data-rk-fbt-variant-id value="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price }}">
+                    {%- else -%}
+                      <select class="rk-fbt__select" data-rk-fbt-variant-select>
+                        {%- for variant in p.variants -%}
+                          <option
+                            value="{{ variant.id }}"
+                            data-price="{{ variant.price }}"
+                            data-compare="{{ variant.compare_at_price }}"
+                            {% if variant == v %}selected{% endif %}
+                            {% unless variant.available %}disabled{% endunless %}
+                          >
+                            {{ variant.title }}{% unless variant.available %} — Sold out{% endunless %}
+                          </option>
+                        {%- endfor -%}
+                      </select>
                     {%- endif -%}
-                    <span class="rk-fbt__current">{{ v.price | money }}</span>
-                  </p>
-
-                  {%- unless v.available -%}
-                    <span class="rk-pill rk-pill--soldout rk-fbt__soldout">Sold out</span>
-                  {%- endunless -%}
-
-                  {%- if p.has_only_default_variant -%}
-                    <input type="hidden" data-rk-fbt-variant-id value="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price }}">
-                  {%- else -%}
-                    <select class="rk-fbt__select" data-rk-fbt-variant-select>
-                      {%- for variant in p.variants -%}
-                        <option
-                          value="{{ variant.id }}"
-                          data-price="{{ variant.price }}"
-                          data-compare="{{ variant.compare_at_price }}"
-                          {% if variant == v %}selected{% endif %}
-                          {% unless variant.available %}disabled{% endunless %}
-                        >
-                          {{ variant.title }}{% unless variant.available %} — Sold out{% endunless %}
-                        </option>
-                      {%- endfor -%}
-                    </select>
-                  {%- endif -%}
+                  </div>
                 </div>
               {%- endif -%}
             {%- endif -%}
@@ -445,6 +447,59 @@
     }
     #rk-fbt-{{ section.id }} .rk-fbt__summary {
       position: static;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #rk-fbt-{{ section.id }} {
+      padding: 32px 16px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__summary {
+      padding: 20px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__items {
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__plus {
+      display: none;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__card {
+      width: 100% !important;
+      flex: 1 1 100% !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center;
+      gap: 16px;
+      background: var(--rk-card-bg);
+      border: 1px solid var(--rk-line);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__imagewrap {
+      width: 80px !important;
+      height: 80px !important;
+      flex: 0 0 80px !important;
+      margin-bottom: 0 !important;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__card-info {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__name {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__price {
+      margin-bottom: 6px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__select {
+      margin-top: 4px;
+      height: 34px;
+      font-size: 12px;
     }
   }
 
