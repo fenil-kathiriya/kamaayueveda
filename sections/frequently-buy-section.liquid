@@ -43,6 +43,27 @@
       <div class="rk-fbt__empty">Add product blocks in the theme editor to build this bundle.</div>
     {%- else -%}
 
+      {%- comment -%} Interactive Bundle Collage Preview {%- endcomment -%}
+      <div class="rk-fbt__collage" data-rk-fbt-collage>
+        {%- assign rk_collage_i = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'product' -%}
+            {%- assign p = block.settings.product -%}
+            {%- if p != blank -%}
+              <div class="rk-fbt__collage-item" data-rk-fbt-collage-item="{{ rk_collage_i }}">
+                {%- if p.featured_image != blank -%}
+                  <img src="{{ p.featured_image | image_url: width: 240 }}" alt="{{ p.title }}" loading="lazy">
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'rk-placeholder' }}
+                {%- endif -%}
+                <div class="rk-fbt__collage-check-indicator">✓</div>
+              </div>
+              {%- assign rk_collage_i = rk_collage_i | plus: 1 -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
       <div class="rk-fbt__layout">
 
         <div class="rk-fbt__items">
@@ -441,6 +462,81 @@
     min-height: 16px;
   }
 
+  /* Interactive Collage Styles */
+  #rk-fbt-{{ section.id }} .rk-fbt__collage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 32px;
+    padding: 16px;
+    width: max-content;
+    max-width: 100%;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__collage-item {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px solid var(--rk-card-bg);
+    box-shadow: 0 6px 16px rgba(59, 36, 21, 0.12);
+    overflow: hidden;
+    margin-left: -20px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    background: var(--rk-card-bg);
+    z-index: 2;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__collage-item:first-child {
+    margin-left: 0;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__collage-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.35s ease;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__collage-item.is-inactive {
+    opacity: 0.3;
+    transform: scale(0.85);
+    z-index: 1;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__collage-item.is-inactive img {
+    filter: grayscale(100%);
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__collage-check-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 22px;
+    height: 22px;
+    background: var(--rk-green);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--rk-card-bg);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
+    transform: scale(1);
+    z-index: 3;
+  }
+
+  #rk-fbt-{{ section.id }} .rk-fbt__collage-item.is-inactive .rk-fbt__collage-check-indicator {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
   @media (max-width: 860px) {
     #rk-fbt-{{ section.id }} .rk-fbt__layout {
       grid-template-columns: 1fr;
@@ -478,10 +574,36 @@
       padding: 12px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__imagewrap {
-      width: 80px !important;
-      height: 80px !important;
-      flex: 0 0 80px !important;
+      width: 24px !important;
+      height: 24px !important;
+      flex: 0 0 24px !important;
+      border: none !important;
+      background: transparent !important;
+      position: relative !important;
       margin-bottom: 0 !important;
+      cursor: pointer;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__check {
+      position: static !important;
+      display: block;
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      border: 2px solid var(--rk-brown) !important;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__checkbox:checked + .rk-fbt__check {
+      background: var(--rk-green) !important;
+      border-color: var(--rk-green) !important;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__checkbox:checked + .rk-fbt__check::after {
+      left: 7px !important;
+      top: 3px !important;
+      width: 6px !important;
+      height: 11px !important;
+      border-color: #fff !important;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__img {
+      display: none !important;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__card-info {
       flex: 1 1 auto;
@@ -568,14 +690,18 @@
       var anyChecked = false;
       var checkedCount = 0;
 
-      cards.forEach(function (card) {
+      cards.forEach(function (card, index) {
         var checkbox = card.querySelector('[data-rk-fbt-checkbox]');
+        var collageItem = root.querySelector('[data-rk-fbt-collage-item="' + index + '"]');
         if (checkbox && checkbox.checked) {
           anyChecked = true;
           checkedCount += 1;
           var pricing = getCardPricing(card);
           total += pricing.price;
           totalCompare += pricing.compare > pricing.price ? pricing.compare : pricing.price;
+          if (collageItem) collageItem.classList.remove('is-inactive');
+        } else {
+          if (collageItem) collageItem.classList.add('is-inactive');
         }
       });
 
@@ -623,6 +749,21 @@
       var select = card.querySelector('[data-rk-fbt-variant-select]');
       checkbox && checkbox.addEventListener('change', recalc);
       select && select.addEventListener('change', recalc);
+    });
+
+    // Setup collage click listeners to toggle checkboxes
+    var collageItems = Array.prototype.slice.call(root.querySelectorAll('[data-rk-fbt-collage-item]'));
+    collageItems.forEach(function (item, index) {
+      item.addEventListener('click', function () {
+        var card = cards[index];
+        if (card) {
+          var checkbox = card.querySelector('[data-rk-fbt-checkbox]');
+          if (checkbox && !checkbox.disabled) {
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change'));
+          }
+        }
+      });
     });
 
     recalc();
