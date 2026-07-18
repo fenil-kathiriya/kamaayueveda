@@ -441,44 +441,33 @@
 
   @media (max-width: 860px) {
     #rk-fbt-{{ section.id }} {
-      padding: 24px 16px;
+      padding: 20px 12px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__layout {
-      grid-template-columns: 1fr; /* Stack layout: products on top, summary on bottom */
-      gap: 24px;
+      grid-template-columns: 1fr 150px;
+      gap: 16px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__items {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 8px;
-      gap: 12px;
-      justify-content: flex-start;
-      scrollbar-width: none; /* Firefox */
-    }
-    #rk-fbt-{{ section.id }} .rk-fbt__items::-webkit-scrollbar {
-      display: none; /* Chrome/Safari */
+      gap: 8px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__plus {
       margin-top: 45px;
-      font-size: 18px;
-      flex-shrink: 0;
+      font-size: 16px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__card {
+      width: 100px;
+      flex: 0 0 100px;
+    }
+    #rk-fbt-{{ section.id }}[data-count="1"] .rk-fbt__card {
+      width: 160px;
+      flex: 0 0 160px;
+    }
+    #rk-fbt-{{ section.id }}[data-count="2"] .rk-fbt__card {
       width: 120px;
       flex: 0 0 120px;
     }
-    #rk-fbt-{{ section.id }}[data-count="1"] .rk-fbt__card {
-      width: 180px;
-      flex: 0 0 180px;
-    }
-    #rk-fbt-{{ section.id }}[data-count="2"] .rk-fbt__card {
-      width: 140px;
-      flex: 0 0 140px;
-    }
     #rk-fbt-{{ section.id }} .rk-fbt__imagewrap {
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       border-radius: 8px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__check {
@@ -488,7 +477,7 @@
       height: 18px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__name {
-      font-size: 13px;
+      font-size: 12px;
       margin-bottom: 4px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -497,46 +486,82 @@
       height: 2.7em;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__price {
-      font-size: 13px;
+      font-size: 12px;
       margin-bottom: 6px;
-      gap: 6px;
+      gap: 4px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__select {
       height: 32px;
-      font-size: 12px;
+      font-size: 11px;
       padding: 0 6px;
-      border-radius: 6px;
+      border-radius: 4px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__summary {
-      padding: 20px;
-      border-radius: 12px;
+      padding: 16px 12px;
+      border-radius: 10px;
       position: static;
-      width: 100%;
-      max-width: 100%;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__summary-label {
-      font-size: 11px;
+      font-size: 10px;
       margin-bottom: 4px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__summary-price {
-      margin-bottom: 6px;
-      gap: 8px;
+      margin-bottom: 4px;
+      gap: 6px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__summary-compare {
-      font-size: 14px;
+      font-size: 12px;
     }
     #rk-fbt-{{ section.id }} .rk-fbt__summary-current {
-      font-size: 22px;
+      font-size: 18px;
     }
     #rk-fbt-{{ section.id }} .rk-btn {
-      height: 44px;
-      font-size: 14px;
-      border-radius: 8px;
+      height: 42px;
+      font-size: 13px;
     }
-    #rk-fbt-{{ section.id }} .rk-fbt__badge {
+  }
+
+  @media (max-width: 480px) {
+    #rk-fbt-{{ section.id }} .rk-fbt__layout {
+      grid-template-columns: 1fr 120px;
+      gap: 10px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__card {
+      width: 80px;
+      flex: 0 0 80px;
+    }
+    #rk-fbt-{{ section.id }}[data-count="1"] .rk-fbt__card {
+      width: 120px;
+      flex: 0 0 120px;
+    }
+    #rk-fbt-{{ section.id }}[data-count="2"] .rk-fbt__card {
+      width: 90px;
+      flex: 0 0 90px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__plus {
+      margin-top: 30px;
+      font-size: 12px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__name {
+      font-size: 10px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__price {
+      font-size: 10px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__select {
+      height: 28px;
+      font-size: 9px;
+      padding: 0 2px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__summary {
+      padding: 10px 6px;
+    }
+    #rk-fbt-{{ section.id }} .rk-fbt__summary-current {
+      font-size: 14px;
+    }
+    #rk-fbt-{{ section.id }} .rk-btn {
+      height: 36px;
       font-size: 11px;
-      padding: 4px 10px;
-      margin-bottom: 8px;
     }
   }
 

@@ -398,9 +398,14 @@
                               <div class="product-card__loading spinner-border" role="status"></div>
                         <span id="AddToCartText-{{ section.id }}">
                           {% unless current_variant.available %}
-                          {{ 'products.product.sold_out' | t }}
+                            {{ 'products.product.sold_out' | t }}
                           {% else %}
-                          {{ 'products.product.add_to_cart' | t }}
+                            {%- assign product_title_dc = product.title | downcase -%}
+                            {%- if product_title_dc contains 'liver' or product_title_dc contains 'ayurveda' -%}
+                              Cash on delivery
+                            {%- else -%}
+                              {{ 'products.product.add_to_cart' | t }}
+                            {%- endif -%}
                           {% endunless %}
                         </span>
                       </button>

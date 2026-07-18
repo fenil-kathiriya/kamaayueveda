@@ -42,6 +42,7 @@
         },
         "9cd2d8a0-a8b4-46d7-b3a7-b1609af99285": {
           "type": "fakeviewer",
+          "disabled": true,
           "settings": {
             "fake_view_min": 12,
             "fake_view_max": 30,
@@ -52,6 +53,7 @@
         },
         "2cf20ef7-ba29-4dd5-8c98-df0b96ba3c5b": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "🔥  30 sold in last 18 hours",
             "text_style": "body"
@@ -59,6 +61,7 @@
         },
         "ff32ea77-bcea-43d3-8e38-55894c9d938a": {
           "type": "separator",
+          "disabled": true,
           "settings": {}
         },
         "8288910a-1ad6-47df-b127-118bc1d2ce24": {
@@ -125,6 +128,7 @@
         },
         "8d4704f6-d81d-4390-9ec5-af58698bef51": {
           "type": "salepoint",
+          "disabled": true,
           "settings": {
             "icon": "package",
             "free_word": "Free Shipping & Exchanges"
@@ -132,6 +136,7 @@
         },
         "b7034bf2-48fd-492f-a089-3169873730db": {
           "type": "salepoint",
+          "disabled": true,
           "settings": {
             "icon": "lock",
             "free_word": "Flexible and secure payment, pay on delivery"
@@ -139,6 +144,7 @@
         },
         "13c388e5-8dd3-4462-9284-ec3f2c9aabc6": {
           "type": "salepoint",
+          "disabled": true,
           "settings": {
             "icon": "shield",
             "free_word": "2 Year Warranty"
@@ -146,6 +152,7 @@
         },
         "salepoint_WxRA3W": {
           "type": "salepoint",
+          "disabled": true,
           "settings": {
             "icon": "ribbon",
             "free_word": "600,000 happy customers"
@@ -153,24 +160,26 @@
         },
         "7120c076-9673-4f15-a579-5efa29fefb6f": {
           "type": "separator",
+          "disabled": true,
           "settings": {}
         },
         "11f6643a-6bb6-4db9-a512-9c0eefc8c3b8": {
           "type": "countdown",
+          "disabled": true,
           "settings": {
             "title_heading": "🔥 Sale ends in !"
           }
         },
         "1431e891-e819-4fa1-8416-0cb3956f0e39": {
           "type": "description",
-          "disabled": true,
           "settings": {
-            "enable_tab": true,
+            "enable_tab": false,
             "title_tab": "Description"
           }
         },
         "2830007b-b9f5-4f33-86cf-680e0a91ca8d": {
           "type": "tabcustom",
+          "disabled": true,
           "settings": {
             "title_tab": "Shipping information",
             "icon": "none",
@@ -195,6 +204,7 @@
         },
         "83a6f5b6-88e4-4eb3-9899-a085ea9c58bd": {
           "type": "shippingtime",
+          "disabled": true,
           "settings": {
             "shipping_button": "Delivery information",
             "page_shipping": "delivery-service"
@@ -252,17 +262,17 @@
         "ff32ea77-bcea-43d3-8e38-55894c9d938a",
         "8288910a-1ad6-47df-b127-118bc1d2ce24",
         "ab3c624e-4b26-4bb4-b6bc-f283badc9347",
+        "1431e891-e819-4fa1-8416-0cb3956f0e39",
         "bf089f50-667c-4417-a84a-9478625741a1",
         "be13b3d2-2e01-4728-a83f-6488d1b7d4fa",
         "842b653e-7ccb-4f45-ad7c-8619b58f56ee",
-        "73a647c7-afc5-4d87-aaea-1438dd5ecb92",
+        "73a67c7-afc5-4d87-aaea-1438dd5ecb92",
         "8d4704f6-d81d-4390-9ec5-af58698bef51",
         "b7034bf2-48fd-492f-a089-3169873730db",
         "13c388e5-8dd3-4462-9284-ec3f2c9aabc6",
         "salepoint_WxRA3W",
         "7120c076-9673-4f15-a579-5efa29fefb6f",
         "11f6643a-6bb6-4db9-a512-9c0eefc8c3b8",
-        "1431e891-e819-4fa1-8416-0cb3956f0e39",
         "2830007b-b9f5-4f33-86cf-680e0a91ca8d",
         "0a71f30d-dba2-4bca-a64d-c3cc2ed17e7d",
         "1be7473b-00b2-4ad9-a7c0-356b86de67a7",
@@ -316,6 +326,7 @@
       "blocks": {
         "6889c9ba-caef-4edd-9757-6711505cb095": {
           "type": "description",
+          "disabled": true,
           "settings": {
             "title_tab": "Description"
           }
