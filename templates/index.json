@@ -86,13 +86,14 @@
         "badge_Ga3Nni": {
           "type": "badge",
           "settings": {
-            "icon_type": "preset",
+            "icon_type": "image",
             "icon_select": "medical",
             "custom_emoji": "",
+            "image_icon": "shopify://shop_images/ashwagandha.avif",
             "svg_icon": "",
-            "title": "AUTHENTIC AYURVEDA",
-            "subtitle": "Traditional Herbal Formula",
-            "description": "<p>Crafted with premium Ayurvedic herbs using time-tested formulations for natural wellness and everyday vitality, strength, and balance.</p>"
+            "title": "Ashwagandha",
+            "subtitle": "",
+            "description": ""
           }
         },
         "badge_9GtzJi": {
@@ -137,6 +138,86 @@
         "badge_9GtzJi",
         "badge_ETXhMx",
         "badge_GMhgUk"
+      ],
+      "name": "Trust Badges",
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "title_top": "",
+        "heading_top_color": "#3f6b3f",
+        "title": "",
+        "heading_color": "#222222",
+        "des": "",
+        "align_heading": "center",
+        "min_card_width": 240,
+        "card_gap": 24,
+        "card_bg": "#f5f5f4",
+        "card_radius": 16,
+        "size": 44,
+        "titlecolor": "#3f6b3f",
+        "subtitlecolor": "#3f6b3f",
+        "desccolor": "#444444",
+        "paddingsection": "60px 0px 60px 0px",
+        "paddingmobile": "40px 0px 40px 0px"
+      }
+    },
+    "trust_badge_w6FHzw": {
+      "type": "trust-badge",
+      "blocks": {
+        "badge_PdjdD7": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "preset",
+            "icon_select": "medical",
+            "custom_emoji": "",
+            "svg_icon": "",
+            "title": "AUTHENTIC AYURVEDA",
+            "subtitle": "Traditional Herbal Formula",
+            "description": "<p>Crafted with premium Ayurvedic herbs using time-tested formulations for natural wellness and everyday vitality, strength, and balance.</p>"
+          }
+        },
+        "badge_x9jMR6": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "preset",
+            "icon_select": "shield",
+            "custom_emoji": "",
+            "svg_icon": "",
+            "title": "QUALITY ASSURED",
+            "subtitle": "AYUSH & GMP Certified",
+            "description": "<p>Manufactured in AYUSH-approved and GMP-certified facilities under strict quality standards to ensure purity, safety, and consistency.</p>"
+          }
+        },
+        "badge_FN66Aa": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "preset",
+            "icon_select": "test-tube",
+            "custom_emoji": "",
+            "svg_icon": "",
+            "title": "LAB TESTED",
+            "subtitle": "Purity & Safety Verified",
+            "description": "<p>Every batch undergoes rigorous quality testing to ensure high purity, potency, and compliance with industry standards.</p>"
+          }
+        },
+        "badge_gpCGat": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "preset",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "svg_icon": "",
+            "title": "TRUSTED BY THOUSANDS",
+            "subtitle": "4.8/5 Customer Rating",
+            "description": "<p>Trusted by thousands of customers for delivering authentic Ayurvedic wellness solutions with consistent quality and reliable results.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "badge_PdjdD7",
+        "badge_x9jMR6",
+        "badge_FN66Aa",
+        "badge_gpCGat"
       ],
       "name": "Trust Badges",
       "settings": {
@@ -998,6 +1079,7 @@
     "05de2467-8aa4-4f4f-a776-abd876d9bff0",
     "one_product_sectin_LKmAkf",
     "trust_badge_VhAGPK",
+    "trust_badge_w6FHzw",
     "image_content_J8yzEQ",
     "frequently_buy_section_PKaCMY",
     "frequently_buy_section_MMeyew",
