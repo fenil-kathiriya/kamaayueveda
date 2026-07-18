@@ -81,10 +81,43 @@
     font-weight: 600;
   }
 
+  /* ── Marquee / Infinite Scroll ─────────────────────────────── */
+  {%- if section.settings.enable_autoscroll -%}
+  .trust-badges-{{ section.id }} .trust-badges-grid {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    /* soft fade edges */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-image:         linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+  .trust-badges-{{ section.id }} .trust-badges-track {
+    display: flex;
+    width: max-content;
+    gap: var(--g-gap);
+    animation: trust-marquee-{{ section.id }}
+               calc((11 - {{ section.settings.autoscroll_speed }}) * 3s)
+               linear
+               infinite;
+    will-change: transform;
+  }
+  .trust-badges-{{ section.id }} .trust-badges-track:hover {
+    animation-play-state: paused;
+  }
+  @keyframes trust-marquee-{{ section.id }} {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .trust-badges-{{ section.id }} .trust-badge-card-wrapper {
+    flex: 0 0 var(--g-min-card-width);
+    width: var(--g-min-card-width);
+  }
+  .trust-badges-{{ section.id }} .trust-badge-card {
+    height: 100%;
+  }
+  {%- else -%}
+  /* ── Static Grid ────────────────────────────────────────────── */
   @media (max-width: 767px) {
-    .trust-badges-{{ section.id }} {
-      padding: {{ section.settings.paddingmobile }};
-    }
     .trust-badges-{{ section.id }} .trust-badges-grid {
       grid-template-columns: 1fr;
     }
@@ -92,70 +125,7 @@
       padding: 32px 20px;
     }
   }
-
-  /* Scroll Base Styles */
-  @media (max-width: 767px) {
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-mobile {
-      display: flex !important;
-      overflow-x: auto !important;
-      scroll-snap-type: x proximity;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      flex-wrap: nowrap !important;
-      gap: var(--g-gap) !important;
-      padding-left: 16px;
-      padding-right: 16px;
-      margin-left: -15px;
-      margin-right: -15px;
-      scrollbar-width: none; /* Firefox */
-      grid-template-columns: unset !important;
-    }
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-mobile::-webkit-scrollbar {
-      display: none; /* Safari and Chrome */
-    }
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-mobile .trust-badge-card-wrapper {
-      flex: 0 0 72% !important;
-      min-width: 200px !important;
-      max-width: 280px !important;
-      scroll-snap-align: start;
-    }
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-mobile .trust-badge-card {
-      height: 100%;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-desktop {
-      display: flex !important;
-      overflow-x: auto !important;
-      scroll-snap-type: x proximity;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      flex-wrap: nowrap !important;
-      gap: var(--g-gap) !important;
-      padding-bottom: 15px;
-      grid-template-columns: unset !important;
-    }
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-desktop::-webkit-scrollbar {
-      height: 6px;
-    }
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-desktop::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-desktop::-webkit-scrollbar-thumb {
-      background: #ccc;
-      border-radius: 10px;
-    }
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-desktop .trust-badge-card-wrapper {
-      flex: 0 0 var(--g-min-card-width) !important;
-      width: var(--g-min-card-width) !important;
-      scroll-snap-align: start;
-    }
-    .trust-badges-{{ section.id }} .trust-badges-grid.scroll-desktop .trust-badge-card {
-      height: 100%;
-    }
-  }
+  {%- endif -%}
 </style>
 
 <div class="customstyle{{ section.id }} trust-badges-{{ section.id }}" data-aos="{{ section.settings.animation }}">
@@ -175,54 +145,97 @@
       </div>
     {%- endif -%}
 
-    <div class="trust-badges-grid{% if section.settings.enable_scroll_mobile %} scroll-mobile{% endif %}{% if section.settings.enable_scroll_desktop %} scroll-desktop{% endif %}{% if section.settings.enable_autoscroll %} autoscroll-active{% endif %}"
-         id="trust-grid-{{ section.id }}"
-         data-autoscroll="{{ section.settings.enable_autoscroll }}"
-         data-speed="{{ section.settings.autoscroll_speed }}">
-      {%- for block in section.blocks -%}
-        {%- liquid
-          assign icon_emoji = ''
-          for pair in icon_map
-            assign pair_parts = pair | split: ':'
-            assign k = pair_parts | first | strip
-            if k == block.settings.icon_select
-              assign icon_emoji = pair_parts | last | strip
-            endif
-          endfor
-        -%}
-        <div class="trust-badge-card-wrapper" {{ block.shopify_attributes }}>
-          <div class="trust-badge-card" data-aos="{{ section.settings.animation }}" data-aos-delay="{{ forloop.index | times: 100 }}">
-            <div class="trust-badge-icon">
-              {%- case block.settings.icon_type -%}
-                {%- when 'preset' -%}
-                  {{ icon_emoji | default: '⭐' }}
-                {%- when 'custom_emoji' -%}
-                  {{ block.settings.custom_emoji | default: '⭐' }}
-                {%- when 'image' -%}
-                  {%- if block.settings.image_icon != blank -%}
-                    {{ block.settings.image_icon | image_url: width: 400 | image_tag: loading: 'lazy' }}
-                  {%- else -%}
-                    {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    <div class="trust-badges-grid" id="trust-grid-{{ section.id }}">
+      {%- if section.settings.enable_autoscroll -%}
+        {%- comment -%}Duplicate the track so the loop is seamless{%- endcomment -%}
+        {%- for rep in (1..2) -%}
+          <div class="trust-badges-track" aria-hidden="{% if rep == 2 %}true{% else %}false{% endif %}">
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign icon_emoji = ''
+                for pair in icon_map
+                  assign pair_parts = pair | split: ':'
+                  assign k = pair_parts | first | strip
+                  if k == block.settings.icon_select
+                    assign icon_emoji = pair_parts | last | strip
+                  endif
+                endfor
+              -%}
+              <div class="trust-badge-card-wrapper"{% if rep == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                <div class="trust-badge-card">
+                  <div class="trust-badge-icon">
+                    {%- case block.settings.icon_type -%}
+                      {%- when 'preset' -%}
+                        {{ icon_emoji | default: '⭐' }}
+                      {%- when 'custom_emoji' -%}
+                        {{ block.settings.custom_emoji | default: '⭐' }}
+                      {%- when 'image' -%}
+                        {%- if block.settings.image_icon != blank -%}
+                          {{ block.settings.image_icon | image_url: width: 400 | image_tag: loading: 'lazy' }}
+                        {%- else -%}
+                          {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                        {%- endif -%}
+                      {%- when 'svg' -%}
+                        {{ block.settings.svg_icon | default: '⭐' }}
+                    {%- endcase -%}
+                  </div>
+                  {%- if block.settings.title != blank -%}
+                    <div class="trust-badge-title">{{ block.settings.title }}</div>
                   {%- endif -%}
-                {%- when 'svg' -%}
-                  {{ block.settings.svg_icon | default: '⭐' }}
-              {%- endcase -%}
-            </div>
-
-            {%- if block.settings.title != blank -%}
-              <div class="trust-badge-title">{{ block.settings.title }}</div>
-            {%- endif -%}
-
-            {%- if block.settings.subtitle != blank -%}
-              <div class="trust-badge-subtitle">{{ block.settings.subtitle }}</div>
-            {%- endif -%}
-
-            {%- if block.settings.description != blank -%}
-              <div class="trust-badge-description">{{ block.settings.description }}</div>
-            {%- endif -%}
+                  {%- if block.settings.subtitle != blank -%}
+                    <div class="trust-badge-subtitle">{{ block.settings.subtitle }}</div>
+                  {%- endif -%}
+                  {%- if block.settings.description != blank -%}
+                    <div class="trust-badge-description">{{ block.settings.description }}</div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endfor -%}
           </div>
-        </div>
-      {%- endfor -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign icon_emoji = ''
+            for pair in icon_map
+              assign pair_parts = pair | split: ':'
+              assign k = pair_parts | first | strip
+              if k == block.settings.icon_select
+                assign icon_emoji = pair_parts | last | strip
+              endif
+            endfor
+          -%}
+          <div class="trust-badge-card-wrapper" {{ block.shopify_attributes }}>
+            <div class="trust-badge-card" data-aos="{{ section.settings.animation }}" data-aos-delay="{{ forloop.index | times: 100 }}">
+              <div class="trust-badge-icon">
+                {%- case block.settings.icon_type -%}
+                  {%- when 'preset' -%}
+                    {{ icon_emoji | default: '⭐' }}
+                  {%- when 'custom_emoji' -%}
+                    {{ block.settings.custom_emoji | default: '⭐' }}
+                  {%- when 'image' -%}
+                    {%- if block.settings.image_icon != blank -%}
+                      {{ block.settings.image_icon | image_url: width: 400 | image_tag: loading: 'lazy' }}
+                    {%- else -%}
+                      {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                  {%- when 'svg' -%}
+                    {{ block.settings.svg_icon | default: '⭐' }}
+                {%- endcase -%}
+              </div>
+              {%- if block.settings.title != blank -%}
+                <div class="trust-badge-title">{{ block.settings.title }}</div>
+              {%- endif -%}
+              {%- if block.settings.subtitle != blank -%}
+                <div class="trust-badge-subtitle">{{ block.settings.subtitle }}</div>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <div class="trust-badge-description">{{ block.settings.description }}</div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
     </div>
 
     {%- if section.blocks.size == 0 -%}
@@ -232,61 +245,7 @@
   </div>
 </div>
 
-<script>
-(function() {
-  var grid = document.getElementById('trust-grid-{{ section.id }}');
-  if (!grid) return;
-  var enabled = grid.getAttribute('data-autoscroll') === 'true';
-  if (!enabled) return;
 
-  var speed = parseFloat(grid.getAttribute('data-speed')) || 0.5;
-  var cloned = false;
-  var animId;
-  var paused = false;
-
-  function cloneItems() {
-    var items = Array.from(grid.querySelectorAll('.trust-badge-card-wrapper'));
-    items.forEach(function(item) {
-      var clone = item.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      clone.classList.add('cloned-badge');
-      grid.appendChild(clone);
-    });
-    cloned = true;
-  }
-
-  function startScroll() {
-    if (!cloned) cloneItems();
-    var scrollPos = grid.scrollLeft;
-    var originalWidth = grid.scrollWidth / 2;
-
-    function step() {
-      if (!paused) {
-        scrollPos += speed;
-        if (scrollPos >= originalWidth) {
-          scrollPos = 0;
-        }
-        grid.scrollLeft = scrollPos;
-      }
-      animId = requestAnimationFrame(step);
-    }
-    animId = requestAnimationFrame(step);
-  }
-
-  grid.addEventListener('mouseenter', function() { paused = true; });
-  grid.addEventListener('mouseleave', function() { paused = false; });
-  grid.addEventListener('touchstart', function() { paused = true; }, { passive: true });
-  grid.addEventListener('touchend', function() {
-    setTimeout(function() { paused = false; }, 1500);
-  }, { passive: true });
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startScroll);
-  } else {
-    startScroll();
-  }
-})();
-</script>
 
 {% schema %}
 {
@@ -381,8 +340,8 @@
       "max": 10,
       "step": 1,
       "label": "Auto Scroll Speed",
-      "default": 2,
-      "info": "1 = slowest, 10 = fastest. Pauses on hover/touch."
+      "default": 6,
+      "info": "1 = very slow, 10 = very fast. Pauses on hover."
     },
     { "type": "header", "content": "Card Style" },
     { "type": "color", "id": "card_bg", "label": "Card Background", "default": "#f5f5f4" },
