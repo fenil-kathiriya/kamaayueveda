@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -8,10 +17,24 @@
           "settings": {
             "collection": "accessories"
           }
+        },
+        "collection_JQy8rm": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "collection_nq4frE": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
         }
       },
       "block_order": [
-        "54d3153c-e00a-438c-a1b9-f2c68e68fce1"
+        "54d3153c-e00a-438c-a1b9-f2c68e68fce1",
+        "collection_JQy8rm",
+        "collection_nq4frE"
       ],
       "settings": {
         "display_type": "all",
@@ -58,7 +81,7 @@
           "type": "button",
           "settings": {
             "button": "discover now",
-            "link": "shopify:\/\/collections\/all",
+            "link": "shopify://collections/all",
             "style_btn": "btn-theme"
           }
         }
@@ -69,12 +92,12 @@
         "4ca26696-8c69-457b-b768-8f4ea309d003",
         "b86a326b-4e5c-4ff4-8312-15fa764d2fdb"
       ],
+      "disabled": true,
       "settings": {
         "animation": "fade-up",
         "setwidth": "full",
         "bgsection": "#ffffff",
         "parrallax_enable": true,
-        "image": "shopify:\/\/shop_images\/Rectangle_2_3_1.webp",
         "height_section": "550",
         "height_section_mobile": "450",
         "align": "left",
@@ -89,8 +112,35 @@
         "marginsection": "0px 0px 0px 0px"
       }
     },
+    "featured_products_TBQdVx": {
+      "type": "featured-products",
+      "name": "Product Grid",
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "title_top": "Sub Title Top",
+        "title": "Product list",
+        "des": "",
+        "align-heading": "center",
+        "collection": "kamas-top-selling",
+        "enable_creative": false,
+        "padding": true,
+        "enable_title_grid": false,
+        "colgrid": "col-lg-3",
+        "rows": 4,
+        "txtbutton": "show all",
+        "urlbtn": "",
+        "style_btn": "btn-underline btn-underline-white",
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "40px 0px 40px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
     "166340581364695c71": {
       "type": "product-list-swiper",
+      "disabled": true,
       "settings": {
         "animation": "fade-up",
         "setwidth": "container",
@@ -98,7 +148,7 @@
         "e_repeat": "no-repeat",
         "e_position": "center center",
         "bgsection": "#ffffff",
-        "title_color": "transparent",
+        "title_color": "rgba(0,0,0,0)",
         "title_top": "Best Women",
         "title": "Lookbook Style",
         "des": "",
@@ -110,6 +160,7 @@
         "nowrap": true,
         "arrows": true,
         "scrollbar": false,
+        "enable_same_height": false,
         "buttonall": "",
         "buttonall_link": "",
         "style_btn": "btn-theme",
@@ -131,12 +182,70 @@
         "marginsection": "0px 0px 0px 0px",
         "marginmobile": "0px 0px 0px 0px"
       }
+    },
+    "product_with_image_648hzC": {
+      "type": "product-with-image",
+      "blocks": {
+        "banner_yam7pe": {
+          "type": "banner",
+          "settings": {
+            "subtitle": "",
+            "title": "",
+            "size_text": "h2",
+            "subtext": "",
+            "pos_banner": "mid-center",
+            "button": "discover now",
+            "link": "",
+            "style_btn": "btn-underline btn-underline-white",
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_5_2026_11_48_22_AM.png",
+            "video": "",
+            "colortabimage": "#ffffff",
+            "bg-overlay": "#000000",
+            "bg-opacity": 0
+          }
+        },
+        "product_ibygnN": {
+          "type": "product",
+          "settings": {
+            "product_list": [
+              "fire-bolt-kama-vati-gold-100-ayurvedic-herbal-wellness-tablets-premium-mens-vitality-supplement-45-gold-vati",
+              "kama-vidhi",
+              "moringa-drops",
+              "punarnava-tablets"
+            ],
+            "column": "2",
+            "limit": 4
+          }
+        }
+      },
+      "block_order": [
+        "banner_yam7pe",
+        "product_ibygnN"
+      ],
+      "name": "Product grid Image",
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "title_top": "Sub Title Top",
+        "title": "Product list",
+        "des": "",
+        "align-heading": "center",
+        "enable_reverse": false,
+        "width_banner": 50,
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "40px 0px 40px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
     }
   },
   "order": [
     "main",
     "16634028377c76965e",
     "166340498714830ffb",
-    "166340581364695c71"
+    "featured_products_TBQdVx",
+    "166340581364695c71",
+    "product_with_image_648hzC"
   ]
 }
