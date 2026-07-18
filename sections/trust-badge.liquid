@@ -84,7 +84,9 @@
   /* ── Marquee / Infinite Scroll ─────────────────────────────── */
   {%- if section.settings.enable_autoscroll -%}
   .trust-badges-{{ section.id }} .trust-badges-grid {
-    display: block;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 0 !important;
     overflow: hidden;
     position: relative;
     /* soft fade edges */
@@ -95,6 +97,7 @@
     display: flex;
     width: max-content;
     gap: var(--g-gap);
+    padding-right: var(--g-gap);
     animation: trust-marquee-{{ section.id }}
                calc((11 - {{ section.settings.autoscroll_speed }}) * 3s)
                linear
@@ -106,7 +109,7 @@
   }
   @keyframes trust-marquee-{{ section.id }} {
     0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    100% { transform: translateX(-100%); }
   }
   .trust-badges-{{ section.id }} .trust-badge-card-wrapper {
     flex: 0 0 var(--g-min-card-width);
