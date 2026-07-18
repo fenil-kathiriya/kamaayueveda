@@ -83,6 +83,71 @@
     "trust_badge_VhAGPK": {
       "type": "trust-badge",
       "blocks": {
+        "badge_JzXTek": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "image",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "image_icon": "shopify://shop_images/safed_musli.avif",
+            "svg_icon": "",
+            "title": "Safed Musli",
+            "subtitle": "",
+            "description": ""
+          }
+        },
+        "badge_nbwfnW": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "image",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "image_icon": "shopify://shop_images/behman_safed.avif",
+            "svg_icon": "",
+            "title": "Behman Safed",
+            "subtitle": "",
+            "description": ""
+          }
+        },
+        "badge_WPU7ME": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "image",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "image_icon": "shopify://shop_images/kale_kaunch_beej.avif",
+            "svg_icon": "",
+            "title": "Kale Kaunch Beej",
+            "subtitle": "",
+            "description": ""
+          }
+        },
+        "badge_Qjeg47": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "image",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "image_icon": "shopify://shop_images/shatavari.avif",
+            "svg_icon": "",
+            "title": "Shatavari",
+            "subtitle": "",
+            "description": ""
+          }
+        },
+        "badge_PXwziT": {
+          "type": "badge",
+          "settings": {
+            "icon_type": "image",
+            "icon_select": "star",
+            "custom_emoji": "",
+            "image_icon": "shopify://shop_images/behman_lal.avif",
+            "svg_icon": "",
+            "title": "Behman Lal",
+            "subtitle": "",
+            "description": ""
+          }
+        },
         "badge_9KEbHY": {
           "type": "badge",
           "settings": {
@@ -150,6 +215,11 @@
         }
       },
       "block_order": [
+        "badge_JzXTek",
+        "badge_nbwfnW",
+        "badge_WPU7ME",
+        "badge_Qjeg47",
+        "badge_PXwziT",
         "badge_9KEbHY",
         "badge_Dz8TjJ",
         "badge_VNPYmc",
