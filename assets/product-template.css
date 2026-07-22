@@ -370,7 +370,7 @@
       margin-bottom: 10px;
     }
     .product-form__quantity-submit .product-form__item--submit{
-      margin:0 0 10px 20px !important;
+      margin:0 0 10px 0 !important;
     }
     .product-form__buynow{
       margin:0;
