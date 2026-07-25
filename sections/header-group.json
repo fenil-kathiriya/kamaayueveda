@@ -22,26 +22,17 @@
             "button_link": "shopify://collections"
           }
         },
-        "item_yhpBCB": {
-          "type": "Item",
-          "settings": {
-            "code": "Use HTML to format your text so it can be easily read.",
-            "button_text": "Shop Now",
-            "button_link": "shopify://collections"
-          }
-        },
         "afb084a9-2a31-4207-9d23-694c0f6b1281": {
           "type": "Item",
           "settings": {
             "code": "Get Extra Offer on Prepaid Orders",
             "button_text": "Shop Now",
-            "button_link": "shopify://collections/best-seller"
+            "button_link": "shopify://collections"
           }
         }
       },
       "block_order": [
         "a00daf6f-fb1c-4351-80dc-24e405bf630e",
-        "item_yhpBCB",
         "afb084a9-2a31-4207-9d23-694c0f6b1281"
       ],
       "custom_css": [
