@@ -630,7 +630,7 @@
           "setwidth": "container-fluid",
           "slideshow_mobile": true,
           "autorotate": true,
-          "autorotate_speed": 5,
+          "autorotate_speed": 3,
           "anim_slideshow": "zoom",
           "e_arrow": true,
           "color_arrow": "#ffffff",
