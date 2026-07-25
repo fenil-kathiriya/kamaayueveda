@@ -401,6 +401,38 @@
       "product-suggest": {
         "type": "product-suggest",
         "blocks": {
+          "product_TiLpeY": {
+            "type": "product",
+            "settings": {
+              "product": "thairoad-kit",
+              "local": "in Surat,Gujarat",
+              "time": "about 21 minutes ago"
+            }
+          },
+          "product_U73hVe": {
+            "type": "product",
+            "settings": {
+              "product": "kamavati-juice",
+              "local": "in Rajkot, Gujarat",
+              "time": "about 21 minutes ago"
+            }
+          },
+          "product_cbfWcY": {
+            "type": "product",
+            "settings": {
+              "product": "thai-black-ginger",
+              "local": "in amreli, Gujarat",
+              "time": "about 12 minutes ago"
+            }
+          },
+          "product_pexJpc": {
+            "type": "product",
+            "settings": {
+              "product": "cordyceps",
+              "local": "in Karnataka, india",
+              "time": "about 21 minutes ago"
+            }
+          },
           "1597367617767": {
             "type": "product",
             "settings": {
@@ -419,6 +451,10 @@
           }
         },
         "block_order": [
+          "product_TiLpeY",
+          "product_U73hVe",
+          "product_cbfWcY",
+          "product_pexJpc",
           "1597367617767",
           "product_AV4fGq"
         ],
