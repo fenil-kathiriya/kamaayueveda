@@ -578,43 +578,6 @@
               "color_button_hover_2": "#ffffff"
             }
           },
-          "1561259904381": {
-            "type": "image",
-            "settings": {
-              "enable_video": false,
-              "video_hosted": "",
-              "image": "shopify://shop_images/ChatGPT_Image_Jul_18_2026_04_01_53_PM.png",
-              "image_mobile": "shopify://shop_images/ChatGPT_Image_Jul_18_2026_04_06_22_PM.png",
-              "alignment": "center center",
-              "text_alignment": "center center",
-              "bgwrap": "#837f78",
-              "show_overlay": false,
-              "gradient_overlay": false,
-              "bg_overlay": "#000000",
-              "opacity_overlay": 0.4,
-              "slide_toptitle": "",
-              "margin_title": 0.5,
-              "slide_toptitle_color": "#ffffff",
-              "slide_title": "",
-              "slide_title_color": "#070707",
-              "subheading": "",
-              "subheading_color": "#fcf9f3",
-              "button_label": "",
-              "button_link": "shopify://collections/all",
-              "stylebtns": "btn-outline",
-              "bg_button": "#ffffff",
-              "color_button": "#ffffff",
-              "bg_button_hover": "#ffffff",
-              "color_button_hover": "#202025",
-              "button_label_2": "",
-              "button_link_2": "shopify://collections/accessories",
-              "stylebtns_2": "btn-theme",
-              "bg_button_2": "#ffffff",
-              "color_button_2": "#000000",
-              "bg_button_hover_2": "#eeeeee",
-              "color_button_hover_2": "#202025"
-            }
-          },
           "1561259906467": {
             "type": "image",
             "settings": {
@@ -657,7 +620,6 @@
           "image_kFQdmw",
           "108726f6-4aa5-4791-b3da-44f38358c9b2",
           "image_8Yxc9K",
-          "1561259904381",
           "1561259906467"
         ],
         "settings": {
