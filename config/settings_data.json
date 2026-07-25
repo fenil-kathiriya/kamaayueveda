@@ -424,7 +424,7 @@
         ],
         "settings": {
           "enable": true,
-          "duration": 8,
+          "duration": 5,
           "text": "Someone recently bought",
           "verify": "Verified"
         }
